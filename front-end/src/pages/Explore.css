@@ -1,0 +1,12 @@
+.explore {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  background-color: beige;
+  width: 1000px;
+  margin-top: 50px;
+}

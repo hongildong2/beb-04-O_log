@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.App{
+  min-width: 1200px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
