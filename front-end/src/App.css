@@ -6,6 +6,10 @@
   min-width: 1200px;
 }
 
+.app_body{
+  margin: 5px 20px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

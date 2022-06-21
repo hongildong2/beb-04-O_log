@@ -9,7 +9,6 @@ export default function Nftcard(props) {
 
   return (
     <div className='nftcard' onClick={handleClick}>
-      <div className='nftcard_reward'>Reward</div>
       <img className='nftcard_image' src='logo192.png' />
       <div className='nftcard_content'>
         <span className='name'>이름</span>

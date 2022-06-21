@@ -1,16 +1,18 @@
 .form_container {
-  margin: 10px 0;
-  background-color: antiquewhite;
+  margin: 50px 0;
+  background-color: var(--green-color);
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: start;
+  border-radius: 8px;
 }
 
 .form_container .title {
   font-weight: bold;
   font-size: 18px;
   margin: 5px 0 8px 0;
+  color: var(--white-text-color)
 }
 
 .form_container .input_section {
@@ -29,6 +31,7 @@
   margin: 3px 0;
   height: 35px;
   padding-left: 10px;
+  border-radius: 5px;
 }
 
 .submit {
@@ -43,4 +46,5 @@
   height: 30px;
   border: none;
   background-color: #ffffff;
+  border-radius: 5px;
 }

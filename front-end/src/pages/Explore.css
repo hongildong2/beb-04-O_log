@@ -6,7 +6,6 @@
 .container {
   display: flex;
   flex-flow: row wrap;
-  background-color: beige;
-  width: 1000px;
+  width: 1200px;
   margin-top: 50px;
 }

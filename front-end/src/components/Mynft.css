@@ -1,15 +1,14 @@
 .mynfts {
   background-color: #ffffff;
-  width: 315px;
-  margin: 5px;
   display: flex;
   flex-direction: column;
   align-items: start;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .mynfts > .title {
   font-size: 18px;
-  font-weight: bold;
   margin: 5px;
 }
 

@@ -1,29 +1,23 @@
 .org_info {
   background-color: #ffffff;
-  margin: 5px;
-  width: 315px;
   display: flex;
   flex-direction: column;
   align-items: start;
-}
-
-.org_content {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 5px;
   width: 100%;
+  margin:10px 0px;
+  border-radius: 10px;
+  padding: 8px;
 }
 
 .org_element {
   margin: 2px 0;
 }
 
-.org_content .sub {
+.org_info .sub {
   color: gray;
 }
 
-.org_content .big {
+.org_info .big {
   font-size: 30px;
 }
 
@@ -35,7 +29,10 @@
 
 .org_element > button {
   border: none;
-  background-color:antiquewhite;
+  background-color:var(--green-color);
   width: 70px;
   height: 30px;
+  border-radius: 10px;
+  color: var(--white-text-color);
+  font-weight: bold;
 }
