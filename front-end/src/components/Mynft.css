@@ -4,12 +4,15 @@
   flex-direction: column;
   align-items: start;
   border-radius: 10px;
-  padding: 10px;
+}
+
+.mynfts_container {
+  margin: 10px 13px
 }
 
 .mynfts > .title {
   font-size: 18px;
-  margin: 5px;
+  margin: 8px 13px;
 }
 
 .mynfts_container {

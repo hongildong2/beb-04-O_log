@@ -50,8 +50,7 @@
 .mypage_posts {
   display: flex;
   flex-direction: column;
-  width:780px;
-  margin-right: 15px;
+  width:720px;
   align-items: start;
 }
 
@@ -69,7 +68,7 @@
 }
 
 .mypost_container .card {
-  margin: 15px;
+  margin: 10px;
   width: 220px
 }
 

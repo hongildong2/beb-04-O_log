@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 
 export default function Navbar() {
-  const tempAuthentication = false;
+  const tempAuthentication = true; //인증여부
   const location = useLocation();
   return (
     <div className='navbar'>
