@@ -3,8 +3,8 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const onchainRouter = require("./router/onchain");
-const offchainRouter = require("./router/offchain");
+const onchainRouter = require("./router/onchain/index");
+const offchainRouter = require("./router/offchain/index");
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //Offchain middlewares
-app.use("/onchain", onchainRouter);
+// app.use("/onchain", onchainRouter);
 //Onchain middlewares
 app.use("/offchain", offchainRouter);
 
