@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
-contract ZeppelinTestToken is ERC20, Ownable {
+contract ProjectERC20 is ERC20, Ownable {
     constructor() ERC20("ZeppelinTestToken", "ZTT") {}
 
     function mintToken(address to, uint256 amount) public onlyOwner returns (bool){

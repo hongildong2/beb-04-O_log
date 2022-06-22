@@ -18,6 +18,8 @@
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "openzeppelin-solidity": "^4.6.0",
+    "web3": "^1.7.4"
   }
 }
