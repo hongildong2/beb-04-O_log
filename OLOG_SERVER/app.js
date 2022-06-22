@@ -3,7 +3,9 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const Test = require("./models/test");
+const onchainRouter = require("./router/onchain/index");
+const offchainRouter = require("./router/offchain/index");
+
 const app = express();
 
 const { PORT, MONGO_URI } = process.env;
@@ -18,8 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//Offchain middlewares
+// app.use("/onchain", onchainRouter);
+//Onchain middlewares
+app.use("/offchain", offchainRouter);
+
 app.get("/", (req, res) => {
-  Test.get("todoid");
   res.send("HI");
 });
 
