@@ -29,6 +29,7 @@ module.exports = {
     const newPost = new Post({
       blogLink,
       title,
+      postUserName: res.locals.user.username,
     });
 
     try {

@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
-  postUserId: {
-    type: Number,
+  user: {
+    _id: mongoose.Types.ObjectId,
+    username: String,
     // required: true,
   },
   blogLink: {
