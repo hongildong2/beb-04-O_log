@@ -28,7 +28,7 @@ app.use("/offchain", offchainRouter);
 app.get("/", (req, res) => {
   res.send("HI");
 });
-
+//온체인 오프체인 포트 분리시키기
 app.listen(PORT, () => {
   console.log("Rrr");
 });

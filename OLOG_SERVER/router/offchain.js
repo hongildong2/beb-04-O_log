@@ -7,5 +7,6 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", authorizationFunctions);
+router.post("/blogposts", blogpostFunction);
 
 module.exports = router;
