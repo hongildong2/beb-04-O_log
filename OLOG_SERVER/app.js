@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const onchainRouter = require("./router/onchain/index");
 const offchainRouter = require("./router/offchain/index");
+const verifyToken = require("./verifyToken");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(verifyToken);
 
 //Offchain middlewares
 // app.use("/onchain", onchainRouter);
