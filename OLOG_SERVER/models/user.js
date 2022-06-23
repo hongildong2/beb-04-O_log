@@ -55,33 +55,6 @@ userSchema.methods.generateToken = function () {
   return token;
 };
 
-userSchema.methods.generateWallet = function (password) {
-  const mnemonic = lightwallet.keystore.generateRandomSeed();
-
-  try {
-    return lightwallet.keystore.createVault(
-      {
-        password: password,
-        seedPhrase: mnemonic,
-        hdPathString: "m/0'/0'/0'",
-      },
-      function (err, ks) {
-        ks.keyFromPassword(password, function (err, pwDerivedKey) {
-          ks.generateNewAddress(pwDerivedKey, 1);
-
-          address = ks.getAddresses().toString();
-          privateKey = ks.exportPrivateKey(address, pwDerivedKey);
-        });
-      }
-    );
-
-    // this.address = address;
-    // this.privateKey = privateKey;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 userSchema.statics.findByUsername = function (username) {
   return this.findOne({ username });
 };

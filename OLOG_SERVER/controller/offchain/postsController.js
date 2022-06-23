@@ -1,3 +1,4 @@
+const Post = require("../../models/post");
 const User = require("../../models/user");
 
 module.exports = {
@@ -26,10 +27,11 @@ module.exports = {
 
   write: async (req, res) => {
     const { blogLink, title } = req.body;
+
     const newPost = new Post({
       blogLink,
       title,
-      postUserName: res.locals.user.username,
+      username: res.locals.user.username,
     });
 
     // const currentToken = res[0].expectedtoken;
@@ -62,17 +64,17 @@ module.exports = {
 
   /* 
     MyPage: 한 명의 유저의 post들을 보내줌
-    Get /offchain/posts/:id 
+    Get /offchain/posts/mypage
 */
   read: async (req, res) => {
-    const { id } = req.params;
+    const { user } = res.locals;
+
+    const query = {
+      ...(user.username ? { username: user.username } : {}),
+    };
     try {
-      const post = await Post.findById(id).exec();
-      if (!post) {
-        res.status(404).send("해당 post가 없습니다.");
-        return;
-      }
-      res.status(200).send(post);
+      const posts = await Post.find(query).exec();
+      res.status(200).send(posts);
     } catch (e) {
       res.status(404).send(e);
     }
