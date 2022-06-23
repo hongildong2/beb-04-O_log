@@ -1,5 +1,4 @@
 const User = require("../../models/user");
-const lightwallet = require("eth-lightwallet");
 const Web3 = require("web3");
 require("dotenv").config();
 
@@ -22,7 +21,6 @@ module.exports = {
 
       const web3 = new Web3(process.env.LOCAL_GANACHE);
       const Account = await web3.eth.accounts.create();
-      console.log(Account);
 
       const newUser = new User({
         username,
@@ -91,7 +89,6 @@ module.exports = {
     */
   check: (req, res) => {
     const { user } = res.locals;
-    console.log(user);
     if (!user) {
       //로그인 중 아님
       res.status(401).send("로그인 중이 아닙니다.");
@@ -110,30 +107,5 @@ module.exports = {
   logout: (req, res) => {
     res.cookie("JWT_token");
     res.status(200).send("로그아웃됨");
-  },
-
-  newWallet: async (req, res) => {
-    const mnemonic = lightwallet.keystore.generateRandomSeed();
-    const password = req.body.password;
-    try {
-      lightwallet.keystore.createVault(
-        {
-          password: password,
-          seedPhrase: mnemonic,
-          hdPathString: "m/0'/0'/0'",
-        },
-        function (err, ks) {
-          ks.keyFromPassword(password, function (err, pwDerivedKey) {
-            ks.generateNewAddress(pwDerivedKey, 1);
-
-            const address = ks.getAddresses().toString();
-            const privateKey = ks.exportPrivateKey(address, pwDerivedKey);
-            res.json({ address: address, privateKey: privateKey });
-          });
-        }
-      );
-    } catch (e) {
-      console.log(e);
-    }
   },
 };

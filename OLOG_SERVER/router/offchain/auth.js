@@ -6,5 +6,4 @@ auth.route("/register").post(authController.register);
 auth.route("/login").post(authController.login);
 auth.route("/check").get(authController.check);
 auth.route("/logout").post(authController.logout);
-auth.route("/newWallet").post(authController.newWallet);
 module.exports = auth;
