@@ -19,31 +19,6 @@ module.exports = {
         return;
       }
 
-      axios
-        .post("localhost:3030/offchain/auth/newWallet", {
-          password: password,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      //   const wallet = await axios({
-      //     method: "post",
-      //     url: "localhost:3030/offchain/auth/newWallet",
-      //     // headers: {
-      //     //   accept: "application/json",
-      //     // },
-      //     // withCredentials: true,
-      //     body: { password },
-      //   });
-
-      //   console.log(wallet);
-
-      //   const { address, privateKey } = wallet;
-
       const newUser = new User({
         username,
       });
@@ -132,7 +107,7 @@ module.exports = {
 
   newWallet: async (req, res) => {
     const mnemonic = lightwallet.keystore.generateRandomSeed();
-    const password = req.data.password;
+    const password = req.body.password;
     try {
       lightwallet.keystore.createVault(
         {
@@ -146,7 +121,6 @@ module.exports = {
 
             const address = ks.getAddresses().toString();
             const privateKey = ks.exportPrivateKey(address, pwDerivedKey);
-
             res.json({ address: address, privateKey: privateKey });
           });
         }
