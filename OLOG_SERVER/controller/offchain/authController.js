@@ -1,6 +1,6 @@
 const User = require("../../models/user");
 const lightwallet = require("eth-lightwallet");
-const axios = require("axios");
+const Web3 = require("web3");
 
 module.exports = {
   /*
@@ -19,35 +19,16 @@ module.exports = {
         return;
       }
 
-      axios
-        .post("localhost:3030/offchain/auth/newWallet", {
-          password: password,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      //   const wallet = await axios({
-      //     method: "post",
-      //     url: "localhost:3030/offchain/auth/newWallet",
-      //     // headers: {
-      //     //   accept: "application/json",
-      //     // },
-      //     // withCredentials: true,
-      //     body: { password },
-      //   });
-
-      //   console.log(wallet);
-
-      //   const { address, privateKey } = wallet;
+      const web3 = new Web3(process.env.LOCAL_GANACHE);
+      const Account = await web3.eth.accounts.create();
+      console.log(Account);
 
       const newUser = new User({
         username,
+        address: Account.address,
+        privateKey: Account.privateKey,
       });
-      await newUser.generateWallet(password);
+
       await newUser.setPassword(password);
       await newUser.save();
 
