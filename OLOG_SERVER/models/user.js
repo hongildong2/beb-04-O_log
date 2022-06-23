@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const lightwallet = require("eth-lightwallet");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -52,6 +53,38 @@ userSchema.methods.generateToken = function () {
     }
   );
   return token;
+};
+
+userSchema.methods.generateWallet = async function (password) {
+  const mnemonic = lightwallet.keystore.generateRandomSeed();
+
+  try {
+    // let address = "";
+    // const privateKey = "";
+
+    lightwallet.keystore.createVault(
+      {
+        password: password,
+        seedPhrase: mnemonic,
+        hdPathString: "m/0'/0'/0'",
+      },
+      function (err, ks) {
+        ks.keyFromPassword(password, function (err, pwDerivedKey) {
+          ks.generateNewAddress(pwDerivedKey, 1);
+
+          this.address = ks.getAddresses().toString();
+          this.privateKey = ks.exportPrivateKey(address, pwDerivedKey);
+          console.log(address);
+          console.log(privateKey);
+        });
+      }
+    );
+
+    // this.address = address;
+    // this.privateKey = privateKey;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 userSchema.statics.findByUsername = function (username) {
