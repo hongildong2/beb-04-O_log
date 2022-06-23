@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const lightwallet = require("eth-lightwallet");
 const Web3 = require("web3");
+require("dotenv").config();
 
 module.exports = {
   /*
@@ -19,13 +20,10 @@ module.exports = {
         return;
       }
 
-<<<<<<< HEAD
-=======
       const web3 = new Web3(process.env.LOCAL_GANACHE);
       const Account = await web3.eth.accounts.create();
       console.log(Account);
 
->>>>>>> 37be2f58793856b11b6762deecc4bdec26242f80
       const newUser = new User({
         username,
         address: Account.address,
