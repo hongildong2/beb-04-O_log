@@ -1,3 +1,5 @@
+const User = require("../../models/user");
+
 module.exports = {
   /*
     Explore: 모든 posts를 보내줌
@@ -30,12 +32,6 @@ module.exports = {
       postUserName: res.locals.user.username,
     });
 
-    try {
-      await newPost.save();
-      res.status(200).send(newPost);
-    } catch (e) {
-      res.status(404).send(e);
-    }
     // const currentToken = res[0].expectedtoken;
     // const rewardedToken = currentToken + reward;
 
@@ -45,6 +41,23 @@ module.exports = {
     // let result = await Users.findOneandUpdate(filter, update);
 
     // findOneandUpdate로 수정
+
+    try {
+      await newPost.save();
+      const { expectedToken } = await User.findByUsername(
+        res.locals.user.username
+      );
+      const reward = 10;
+      const rewardedToken = expectedToken + reward;
+      const filter = { username: res.locals.user.username };
+      const update = { expectedToken: rewardedToken };
+      let result = await User.findOneAndUpdate(filter, update, {
+        returnDocument: "after",
+      });
+      res.status(200).send(newPost);
+    } catch (e) {
+      res.status(404).send(e);
+    }
   },
 
   /* 

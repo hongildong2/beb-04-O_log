@@ -64,16 +64,20 @@ module.exports = {
 
       console.log(TEST);
 
-      // // add ethereum event listener
+      // // add ethereum event listene
 
       const filter = { address: userwalletaddress };
       const update = {
         receivedToken: receivedToken,
         expectedToken: 0,
       };
-      let result = await User.findOneAndUpdate(filter, update, {
-        returnDocument: "after",
-      });
+      const opt = { new: true };
+      let updatedResult = await User.findOneAndUpdate(filter, update, opt);
+      const result = {
+        username: updatedResult.username,
+        expectedToken: updatedResult.expectedToken,
+        receivedToken: updatedResult.receivedToken,
+      };
       res.send(result);
     } else {
       res.send("Failed!");
