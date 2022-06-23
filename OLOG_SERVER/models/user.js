@@ -55,14 +55,11 @@ userSchema.methods.generateToken = function () {
   return token;
 };
 
-userSchema.methods.generateWallet = async function (password) {
+userSchema.methods.generateWallet = function (password) {
   const mnemonic = lightwallet.keystore.generateRandomSeed();
 
   try {
-    // let address = "";
-    // const privateKey = "";
-
-    lightwallet.keystore.createVault(
+    return lightwallet.keystore.createVault(
       {
         password: password,
         seedPhrase: mnemonic,
@@ -72,10 +69,8 @@ userSchema.methods.generateWallet = async function (password) {
         ks.keyFromPassword(password, function (err, pwDerivedKey) {
           ks.generateNewAddress(pwDerivedKey, 1);
 
-          this.address = ks.getAddresses().toString();
-          this.privateKey = ks.exportPrivateKey(address, pwDerivedKey);
-          console.log(address);
-          console.log(privateKey);
+          address = ks.getAddresses().toString();
+          privateKey = ks.exportPrivateKey(address, pwDerivedKey);
         });
       }
     );

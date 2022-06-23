@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const lightwallet = require("eth-lightwallet");
 const Web3 = require("web3");
+require("dotenv").config();
 
 module.exports = {
   /*
@@ -113,7 +114,7 @@ module.exports = {
 
   newWallet: async (req, res) => {
     const mnemonic = lightwallet.keystore.generateRandomSeed();
-    const password = req.data.password;
+    const password = req.body.password;
     try {
       lightwallet.keystore.createVault(
         {
@@ -127,7 +128,6 @@ module.exports = {
 
             const address = ks.getAddresses().toString();
             const privateKey = ks.exportPrivateKey(address, pwDerivedKey);
-
             res.json({ address: address, privateKey: privateKey });
           });
         }
