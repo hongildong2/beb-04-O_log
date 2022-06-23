@@ -44,3 +44,13 @@
     transform: rotate(360deg);
   }
 }
+
+.notfound_container{
+  margin: 80px 0px
+}
+
+.notfound {
+  font-size: 30px;
+  font-weight: bold;
+  color:var(--sub-text-color)
+}

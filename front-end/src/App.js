@@ -8,6 +8,7 @@ import Mypage from './pages/Mypage';
 import Explore from './pages/Explore';
 import Marketplace from './pages/Marketplace';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Notfound from './pages/Notfound';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path='/mypage' element={<Mypage />} />
               <Route path='/explore' element={<Explore />} />
               <Route path='/marketplace' element={<Marketplace />} />
+              <Route path='*' element={<Notfound />} />
             </Routes>
         </div>
       </div>
