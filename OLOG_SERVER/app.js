@@ -22,15 +22,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(verifyToken);
 
-//Offchain middlewares
-// app.use("/onchain", onchainRouter);
 //Onchain middlewares
+app.use("/onchain", onchainRouter);
+//offnchain middlewares
 app.use("/offchain", offchainRouter);
 
 app.get("/", (req, res) => {
   res.send("HI");
 });
-
+//온체인 오프체인 포트 분리시키기
 app.listen(PORT, () => {
-  console.log("Rrr");
+  console.log("Running");
 });
