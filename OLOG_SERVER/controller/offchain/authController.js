@@ -1,4 +1,6 @@
 const User = require("../../models/user");
+const lightwallet = require("eth-lightwallet");
+const axios = require("axios");
 
 module.exports = {
   /*
@@ -16,9 +18,36 @@ module.exports = {
         res.status(409).send("이미 존재하는 회원입니다.");
         return;
       }
+
+      axios
+        .post("localhost:3030/offchain/auth/newWallet", {
+          password: password,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      //   const wallet = await axios({
+      //     method: "post",
+      //     url: "localhost:3030/offchain/auth/newWallet",
+      //     // headers: {
+      //     //   accept: "application/json",
+      //     // },
+      //     // withCredentials: true,
+      //     body: { password },
+      //   });
+
+      //   console.log(wallet);
+
+      //   const { address, privateKey } = wallet;
+
       const newUser = new User({
         username,
       });
+      await newUser.generateWallet(password);
       await newUser.setPassword(password);
       await newUser.save();
 
@@ -99,5 +128,31 @@ module.exports = {
   logout: (req, res) => {
     res.cookie("JWT_token");
     res.status(200).send("로그아웃됨");
+  },
+
+  newWallet: async (req, res) => {
+    const mnemonic = lightwallet.keystore.generateRandomSeed();
+    const password = req.data.password;
+    try {
+      lightwallet.keystore.createVault(
+        {
+          password: password,
+          seedPhrase: mnemonic,
+          hdPathString: "m/0'/0'/0'",
+        },
+        function (err, ks) {
+          ks.keyFromPassword(password, function (err, pwDerivedKey) {
+            ks.generateNewAddress(pwDerivedKey, 1);
+
+            const address = ks.getAddresses().toString();
+            const privateKey = ks.exportPrivateKey(address, pwDerivedKey);
+
+            res.json({ address: address, privateKey: privateKey });
+          });
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
