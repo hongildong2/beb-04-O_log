@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 //import { useDispatch } from 'react-redux';
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import './Login.css'
 export default function Login() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext)
+  const {authstate, login} = useContext(AuthContext)
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -22,7 +22,18 @@ export default function Login() {
       setPassword(event.currentTarget.value);
   }
 
+  useEffect(() => {
 
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
+
+    }else{
+      console.log("카몬 mate");
+    }
+    return () => {
+    }
+  }, [])
 
   const onSubmitHandler = (event)=> {
     // console.log('submit1');

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import Mynft from '../components/Mynft'
 import Orginfo from '../components/Orginfo'
@@ -10,10 +11,20 @@ import './Mypage.css'
 export default function Mypage() {
   const [myPosts, setMyPosts] = useState([])
   const { authstate } = useContext(AuthContext);
+  const navigate = useNavigate();
 
 
   useEffect(()=>{
-    getMyPosts();
+
+    if(!authstate.auth){
+      console.log("your not login back to main");
+      navigate('/');
+
+    }else{
+      console.log("login true");
+      getMyPosts();
+    }
+
   },[])
 
   const getMyPosts = () => {

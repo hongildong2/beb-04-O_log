@@ -1,17 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 //import { useDispatch } from 'react-redux';
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
 import './Signup.css'
 import axios from 'axios';
+import { AuthContext } from '../context/store';
 
 export default function Signup() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {authstate} = useContext(AuthContext)
 
   const [Username, setUsername] = useState("")
   const [Password, setPassword] = useState("")
   const [ConfirmPassword, setConfirmPassword] = useState("")
+
+
+  useEffect(() => {
+
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
+
+  
+    }else{
+      console.log("카몬 mate");
+    }
+  
+  }, [])
+
 
   const onUsernameHandler = (event) => {
     setUsername(event.target.value);
