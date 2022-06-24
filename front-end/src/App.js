@@ -10,7 +10,7 @@ import Marketplace from './pages/Marketplace';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Notfound from './pages/Notfound';
 import { AuthProvider } from './context/store';
-import {CookiesProvider} from 'react-cookie'
+//import {CookiesProvider} from 'react-cookie'
 
 
 
