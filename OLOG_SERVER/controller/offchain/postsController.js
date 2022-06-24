@@ -1,5 +1,6 @@
 const Post = require("../../models/post");
 const User = require("../../models/user");
+const ogs = require("open-graph-scraper");
 
 module.exports = {
   /*
@@ -21,17 +22,24 @@ module.exports = {
   Post /offchain/posts
   {
       "blogLink": "블로그링크",
-      "title" : "제목"
     }
 */
 
   write: async (req, res) => {
-    const { blogLink, title } = req.body;
+    // 링크만 받아옴
+    const { blogLink } = req.body;
 
+    // 링크에서 데이터 뽑아오는 작업 > title, postImgUrl 가져옴
+    const options = { url: blogLink };
+    const data = await ogs(options);
+    const { er, result, response } = data;
+
+    // 새로운 post 인스턴스 만들어 줌
     const newPost = new Post({
       blogLink,
-      title,
+      title: result.ogTitle,
       username: res.locals.user.username,
+      postImageUrl: result.ogImage.url,
     });
 
     // const currentToken = res[0].expectedtoken;

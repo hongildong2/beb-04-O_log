@@ -16,7 +16,6 @@ import {CookiesProvider} from 'react-cookie'
 function App() {
   return (
     <AuthProvider>
-      <CookiesProvider>
       <BrowserRouter>
         <div className="App">
           <Navbar />
@@ -33,7 +32,6 @@ function App() {
           </div>
         </div>
       </BrowserRouter>
-      </CookiesProvider>
     </AuthProvider>
   );
 }

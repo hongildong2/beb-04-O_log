@@ -38,7 +38,7 @@ export default function Mypage() {
       <div className='mypage_container'>
         <div className='mypage_info'>
           <div className='title'>
-            <div>오늘의 eunmin 님</div>
+            <div>오늘의 {authstate.username} 님</div>
           </div>
           <Orginfo />
           <div className='posts_info'>

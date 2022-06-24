@@ -1,5 +1,4 @@
 import React, { createContext , useReducer} from 'react'
-import {user} from './auth'
 import { authReducer, initialState } from './reducer'
 
 export const AuthContext = createContext(null)
@@ -13,7 +12,6 @@ export const AuthProvider = ({children}) => {
   
   const logout = () => {
     dispatch({type: 'LOGOUT'});
-    localStorage.removeItem('currentUser')
   }
 
   return(
