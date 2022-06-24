@@ -9,7 +9,7 @@ import './Login.css'
 export default function Login() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {authstate, login} = useContext(AuthContext);
+  const {authstate, login} = useContext(AuthContext)
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -21,7 +21,6 @@ export default function Login() {
   const onPasswordHandler = (event) => {
       setPassword(event.currentTarget.value);
   }
-
 
   useEffect(() => {
 
@@ -37,11 +36,9 @@ export default function Login() {
   }, [])
 
   const onSubmitHandler = (event)=> {
-  useEffect(() => {
-    
-    if(authstate.auth){
-      console.log("you already login");
-      navigate('/');
+    // console.log('submit1');
+    // event.preventDefault(); // 페이지 리프레시가 안됨
+    // console.log('submit2');
 
 
     let body = {
@@ -65,6 +62,7 @@ export default function Login() {
     })
 
   }
+
 
 
   return (
