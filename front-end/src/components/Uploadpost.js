@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../context/store';
 import './Uploadpost.css'
 
 export default function Uploadpost() {
+  const {authstate} = useContext(AuthContext);
   const [inputs, setInputs] = useState({
     title: '',
     link:''

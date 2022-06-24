@@ -1,9 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../context/store'
 import './Orginfo.css'
 
 export default function Orginfo() {
   const [myORG, setMyORG] = useState(0)
+  const {authstate} = useContext(AuthContext);
   const temp = {
     total: 20,
     received: 15
