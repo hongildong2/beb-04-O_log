@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import Mynft from '../components/Mynft'
 import Orginfo from '../components/Orginfo'
@@ -8,26 +9,36 @@ import { AuthContext } from '../context/store'
 import './Mypage.css'
 
 export default function Mypage() {
-  let temp= [1,2,3,4,5,6,7,8,9,10,11]
-  const [myPosts, setMyPosts] = useState()
+  const [myPosts, setMyPosts] = useState([])
   const { authstate } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+
   useEffect(()=>{
-    getMyPosts();
+
+    if(!authstate.auth){
+      console.log("your not login back to main");
+      navigate('/');
+
+    }else{
+      console.log("login true");
+      getMyPosts();
+    }
+
   },[])
 
   const getMyPosts = () => {
-    //username 받아옴
-    // axios.request({
-    //   method:'GET',
-    //   url: '',
-    //   headers: {'Authorization': `Bearer ${토큰}`}
-    // })
-    // .then((res) => {
-    //   setMyPosts(res.data)
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    // })
+    axios.request({
+      method:'GET',
+      url: 'http://localhost:3030/offchain/posts/mypage',
+      withCredentials: true
+    })
+    .then((res) => {
+      setMyPosts(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
   return (
@@ -38,12 +49,12 @@ export default function Mypage() {
       <div className='mypage_container'>
         <div className='mypage_info'>
           <div className='title'>
-            <div>오늘의 eunmin 님</div>
+            <div>오늘의 {authstate.username} 님</div>
           </div>
           <Orginfo />
           <div className='posts_info'>
             <span>올린 포스트 </span>
-            <span>{temp.length} 개</span>
+            <span>{myPosts.length} 개</span>
           </div>
           <div className='posts_info'>
             잔디
@@ -53,8 +64,9 @@ export default function Mypage() {
         <div className='mypage_posts'>
           <div className='title'>Your Posts</div>
           <div className='mypost_container'>
-            {temp.map((el, idx) => {
-              return <Card key={idx} />
+            {myPosts.map((el, idx) => {
+              //아직 pull 전이라 미흡
+              return <Card key={idx} created_at={el.created_at} username={el.username}/>
             })}
           </div>
         </div>

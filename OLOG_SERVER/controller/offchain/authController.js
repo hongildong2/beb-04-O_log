@@ -72,7 +72,6 @@ module.exports = {
       const token = user.generateToken();
       res.cookie("JWT_token", token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
       });
       res.status(200).send(user.hidePw());
     } catch (e) {

@@ -1,55 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 //import { useDispatch } from 'react-redux';
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
 import './Signup.css'
+import axios from 'axios';
+import { AuthContext } from '../context/store';
 
 export default function Signup() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {authstate} = useContext(AuthContext)
 
   const [Username, setUsername] = useState("")
   const [Password, setPassword] = useState("")
   const [ConfirmPassword, setConfirmPassword] = useState("")
 
+
+  useEffect(() => {
+
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
+
+  
+    }else{
+      console.log("카몬 mate");
+    }
+  
+  }, [])
+
+
   const onUsernameHandler = (event) => {
-    setUsername(event.currentTarget.value);
+    setUsername(event.target.value);
 }
 
   const onPasswordHandler = (event) => {
-      setPassword(event.currentTarget.value)
+      setPassword(event.target.value)
   }
 
   const onConfirmPasswordHandler = (event) => {
-      setConfirmPassword(event.currentTarget.value)
+      setConfirmPassword(event.target.value)
   }
-  /*
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
+
+
+  const onSubmitHandler = () => {
 
     if (Password !== ConfirmPassword) {
         return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
     }
 
     let body = {
-        email: Email,
+        username: Username,
         password: Password,
-        name: Name
     }
-    dispatch(registerUser(body))
-        .then(response => {
-            if (response.payload.success) {
-              navigate('/login');
-            } else {
-                alert("Failed to sign up")
-            }
-        })
-    }
-    */
+
+    axios.request({
+      method:'POST',
+      url:'http://localhost:3030/offchain/auth/register',
+      data: body
+    })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('Failed to sign up')
+    })
+  }
+
+
+
 
 
   return (
-    <form className='form_container' onSubmit>
+    <div className='signup'>
+    <div className='form_container'>
       <div className='title'>Signup</div>
 
       <div className='inputs'>
@@ -60,14 +85,14 @@ export default function Signup() {
 
         <br />
         <div className='submit'>
-          <button type="submit">
-              로그인 하기
+          <button type="submit" onClick={onSubmitHandler}>
+            회원가입
           </button>
         </div>
 
       </div>
-    </form>
-
+    </div>
+    </div>
 
   )
 }
