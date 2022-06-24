@@ -11,9 +11,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Notfound from './pages/Notfound';
 import { AuthProvider } from './context/store';
 
+
 function App() {
   return (
     <AuthProvider>
+
       <BrowserRouter>
         <div className="App">
           <Navbar />
@@ -22,6 +24,7 @@ function App() {
                 <Route path='/' element={<Main />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<Signup />} />
+
                 <Route path='/mypage' element={<Mypage />} />
                 <Route path='/explore' element={<Explore />} />
                 <Route path='/marketplace' element={<Marketplace />} />

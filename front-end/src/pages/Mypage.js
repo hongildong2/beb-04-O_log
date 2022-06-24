@@ -6,13 +6,27 @@ import Orginfo from '../components/Orginfo'
 import Uploadpost from '../components/Uploadpost'
 import { AuthContext } from '../context/store'
 import './Mypage.css'
+import { useNavigate } from "react-router-dom";
+
 
 export default function Mypage() {
   let temp= [1,2,3,4,5,6,7,8,9,10,11]
   const [myPosts, setMyPosts] = useState()
   const { authstate } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  console.log("authstate",authstate);
   useEffect(()=>{
-    getMyPosts();
+    
+    if(!authstate.auth){
+      console.log("your not login back to main");
+      navigate('/');
+
+    }else{
+      console.log("login true");
+      getMyPosts();
+    }
+    
   },[])
 
   const getMyPosts = () => {

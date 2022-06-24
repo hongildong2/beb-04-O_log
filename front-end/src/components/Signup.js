@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
-//import { withRouter } from 'react-router-dom';
 
 function RegisterPage() {
   const dispatch = useDispatch();

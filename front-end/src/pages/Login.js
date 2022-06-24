@@ -22,8 +22,9 @@ export default function Login() {
   }
 
   //임시
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (evnet) => {
     login(Username, Password)
+    navigate('/');//로그인 완료시 메인으로 이동
   }
   /*
   const onSubmitHandler = (event)=> {

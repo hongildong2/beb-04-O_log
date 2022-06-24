@@ -1,15 +1,19 @@
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/store';
+
 import './Navbar.css'
 
 export default function Navbar() {
   const {authstate, logout} = useContext(AuthContext);
   console.log(authstate)
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    navigate('/');//로그아웃 하면 main으로 나감
+    
   }
   return (
     <div className='navbar'>
