@@ -1,11 +1,12 @@
-let localUsername = localStorage.getItem('currentUser')? localStorage.getItem('currentUser') : '';
-let localToken = localStorage.getItem('token')? localStorage.getItem('token') : '';
 
-
+import {Cookies} from 'react-cookie';
+const cookies = new Cookies()
+const getCookie = () => {
+  return cookies.get('JWT_token')
+}
 export const initialState = {
-  auth: localUsername? true :false,
-  username: undefined || localUsername,
-  token: undefined || localToken
+  auth: getCookie() ? true :false,
+  username: undefined
 }
 
 export const authReducer = (state, action) => {
@@ -15,14 +16,13 @@ export const authReducer = (state, action) => {
         ...state,
         auth: true,
         username: action.user.username,
-        token: action.user.token
+
       }
     case 'LOGOUT': 
       return{
         ...state,
         auth: false,
         username: '',
-        token:''
       }
     default:
       throw new Error('error')

@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/store';
+import axios from 'axios';
 import './Login.css'
 
 export default function Login() {
@@ -21,44 +22,41 @@ export default function Login() {
       setPassword(event.currentTarget.value);
   }
 
-  //임시
-  const onSubmitHandler = () => {
-    login(Username, Password)
-  }
-  /*
+
+
   const onSubmitHandler = (event)=> {
-    console.log('submit1');
-    event.preventDefault(); // 페이지 리프레시가 안됨
-    console.log('submit2');
+    // console.log('submit1');
+    // event.preventDefault(); // 페이지 리프레시가 안됨
+    // console.log('submit2');
 
 
     let body = {
-      email: Email,
+      username: Username,
       password: Password
     }
-    console.log('body');
-
-    dispatch(loginUser(body)).then(response => {
-      console.log('body2', response);
-        if (response.payload.loginSuccess) {
-          console.log('ping1');
-            //props.history.push('/');
-            //props.navigate('/');
-            navigate('/');
-            console.log('ping2');
-        } else {
-            alert('Error˝')
-        }
+    axios.request({
+      method:'POST',
+      url:'http://localhost:3030/offchain/auth/login',
+      data: body,
+      withCredentials: true
     })
-    console.log('body3');
-    //axios.post('/api/user/login', body).then(body)
+    .then((res) => {
+      const user = res.data;
+      login({id: user.id, username: user.username})
+      navigate('/')
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('Error')
+    })
 
   }
-*/
+
 
 
   return (
-  <form className='form_container' onSubmit>
+    <div className='login'>
+  <div className='form_container'>
     <div className='title'>Login</div>
 
     <div className='inputs'>
@@ -74,8 +72,8 @@ export default function Login() {
       </div>
 
     </div>
-  </form>
-
+  </div>
+  </div>
 
   )
 }

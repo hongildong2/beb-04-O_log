@@ -1,15 +1,27 @@
+import axios from 'axios';
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/store';
 import './Navbar.css'
 
 export default function Navbar() {
   const {authstate, logout} = useContext(AuthContext);
-  console.log(authstate)
   const location = useLocation();
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout();
+    axios.request({
+      method: 'POST',
+      url:'http://localhost:3030/offchain/auth/logout',
+      withCredentials:true
+    })
+    .then((res) => {
+      logout()
+      navigate('/')
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
   return (
     <div className='navbar'>
@@ -27,7 +39,7 @@ export default function Navbar() {
         {authstate.auth ? 
           <span>
             <Link to='mypage'><span className='navbar_link'>my page</span></Link>
-            <span onClick={handleLogout}>logout</span>
+            <span className='navbar_link' onClick={handleLogout}>logout</span>
           </span>
           :
           <span>
