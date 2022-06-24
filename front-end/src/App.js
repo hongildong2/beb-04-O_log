@@ -8,24 +8,29 @@ import Mypage from './pages/Mypage';
 import Explore from './pages/Explore';
 import Marketplace from './pages/Marketplace';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Notfound from './pages/Notfound';
+import { AuthProvider } from './context/store';
 
 function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <BrowserRouter>
-
-      <Navbar />
-        <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/mypage' element={<Mypage />} />
-          <Route path='/explore' element={<Explore />} />
-          <Route path='/marketplace' element={<Marketplace />} />
-        </Routes>
-        
+        <div className="App">
+          <Navbar />
+          <div className='app_body'>
+            <Routes>
+                <Route path='/' element={<Main />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/mypage' element={<Mypage />} />
+                <Route path='/explore' element={<Explore />} />
+                <Route path='/marketplace' element={<Marketplace />} />
+                <Route path='*' element={<Notfound />} />
+              </Routes>
+          </div>
+        </div>
       </BrowserRouter>
-    </div>
+    </AuthProvider>
   );
 }
 

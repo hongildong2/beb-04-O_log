@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.App{
+  min-width: 1200px;
+}
+
+.app_body{
+  margin: 5px 20px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +43,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.notfound_container{
+  margin: 80px 0px
+}
+
+.notfound {
+  font-size: 30px;
+  font-weight: bold;
+  color:var(--sub-text-color)
 }

@@ -1,0 +1,34 @@
+.nftcard {
+  width: 145px;
+  margin: 6px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  position: relative;box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nftcard_image{
+  position: relative;
+  width: 100%;
+  height: 130px;
+  z-index: 1;
+}
+
+.nftcard_content {
+  margin: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.nftcard_content > .name{
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.nftcard_content .reward{
+  margin-bottom: 5px;
+}
+
+.nftcard_content .price{
+}
