@@ -3,13 +3,13 @@ import React, { useContext, useState, useEffect } from 'react'
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/store';
+import axios from 'axios';
 import './Login.css'
 
 export default function Login() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext)
-  const { authstate } = useContext(AuthContext);
+  const {authstate, login} = useContext(AuthContext);
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -22,14 +22,9 @@ export default function Login() {
       setPassword(event.currentTarget.value);
   }
 
-  //임시
-  const onSubmitHandler = (evnet) => {
-    login(Username, Password)
-    navigate('/');//로그인 완료시 메인으로 이동
-  }
 
   useEffect(() => {
-    
+
     if(authstate.auth){
       console.log("you already login");
       navigate('/');
@@ -38,14 +33,43 @@ export default function Login() {
       console.log("카몬 mate");
     }
     return () => {
-      
     }
   }, [])
-  
+
+  const onSubmitHandler = (event)=> {
+  useEffect(() => {
+    
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
+
+
+    let body = {
+      username: Username,
+      password: Password
+    }
+    axios.request({
+      method:'POST',
+      url:'http://localhost:3030/offchain/auth/login',
+      data: body,
+      withCredentials: true
+    })
+    .then((res) => {
+      const user = res.data;
+      login({id: user.id, username: user.username})
+      navigate('/')
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('Error')
+    })
+
+  }
 
 
   return (
-  <form className='form_container' onSubmit>
+    <div className='login'>
+  <div className='form_container'>
     <div className='title'>Login</div>
 
     <div className='inputs'>
@@ -61,8 +85,8 @@ export default function Login() {
       </div>
 
     </div>
-  </form>
-
+  </div>
+  </div>
 
   )
 }

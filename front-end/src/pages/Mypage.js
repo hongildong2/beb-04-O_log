@@ -1,17 +1,17 @@
-import axios from 'axios'
-import React, { useState, useEffect, useContext } from 'react'
-import Card from '../components/Card'
-import Mynft from '../components/Mynft'
-import Orginfo from '../components/Orginfo'
-import Uploadpost from '../components/Uploadpost'
-import { AuthContext } from '../context/store'
+import axios from 'axios';
+import React, { useState, useEffect, useContext } from 'react';
+import Card from '../components/Card';
+import Mynft from '../components/Mynft';
+import Orginfo from '../components/Orginfo';
+import Uploadpost from '../components/Uploadpost';
+import { AuthContext } from '../context/store';
 import './Mypage.css'
 import { useNavigate } from "react-router-dom";
 
 
 export default function Mypage() {
   let temp= [1,2,3,4,5,6,7,8,9,10,11]
-  const [myPosts, setMyPosts] = useState()
+  const [myPosts, setMyPosts] = useState();
   const { authstate } = useContext(AuthContext);
   const navigate = useNavigate();
 

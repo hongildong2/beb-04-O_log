@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const lightwallet = require("eth-lightwallet");
 
 const userSchema = new mongoose.Schema({
   username: {
