@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 //import { useDispatch } from 'react-redux';
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ export default function Login() {
   //const dispatch = useDispatch();
   const navigate = useNavigate();
   const {login} = useContext(AuthContext)
+  const { authstate } = useContext(AuthContext);
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -26,36 +27,21 @@ export default function Login() {
     login(Username, Password)
     navigate('/');//로그인 완료시 메인으로 이동
   }
-  /*
-  const onSubmitHandler = (event)=> {
-    console.log('submit1');
-    event.preventDefault(); // 페이지 리프레시가 안됨
-    console.log('submit2');
 
+  useEffect(() => {
+    
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
 
-    let body = {
-      email: Email,
-      password: Password
+    }else{
+      console.log("카몬 mate");
     }
-    console.log('body');
-
-    dispatch(loginUser(body)).then(response => {
-      console.log('body2', response);
-        if (response.payload.loginSuccess) {
-          console.log('ping1');
-            //props.history.push('/');
-            //props.navigate('/');
-            navigate('/');
-            console.log('ping2');
-        } else {
-            alert('Error˝')
-        }
-    })
-    console.log('body3');
-    //axios.post('/api/user/login', body).then(body)
-
-  }
-*/
+    return () => {
+      
+    }
+  }, [])
+  
 
 
   return (

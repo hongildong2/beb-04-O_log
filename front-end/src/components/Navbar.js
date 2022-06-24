@@ -5,6 +5,7 @@ import { AuthContext } from '../context/store';
 import './Navbar.css'
 
 export default function Navbar() {
+
   const {authstate, logout} = useContext(AuthContext);
   console.log(authstate)
   const location = useLocation();
@@ -15,8 +16,10 @@ export default function Navbar() {
     navigate('/');//로그아웃 하면 main으로 나감
     
   }
-  return (
-    <div className='navbar'>
+
+    return (
+
+      <div className='navbar'>
       <Link to='/'>
         <div className='title'>오늘의 Log</div>
       </Link>
@@ -42,4 +45,7 @@ export default function Navbar() {
       </div>
     </div>
   )
+
+ 
+
 }

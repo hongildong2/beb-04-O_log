@@ -1,51 +1,41 @@
-import React, { useState } from 'react'
-//import { useDispatch } from 'react-redux';
-//import { registerUser } from '../../../_actions/user_action';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import './Signup.css'
+import { AuthContext } from '../context/store';
+import './Signup.css';
 
 export default function Signup() {
-  //const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [Username, setUsername] = useState("")
-  const [Password, setPassword] = useState("")
-  const [ConfirmPassword, setConfirmPassword] = useState("")
+  const [Username, setUsername] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+  const { authstate } = useContext(AuthContext);
 
   const onUsernameHandler = (event) => {
     setUsername(event.currentTarget.value);
 }
 
   const onPasswordHandler = (event) => {
-      setPassword(event.currentTarget.value)
+      setPassword(event.currentTarget.value);
   }
 
   const onConfirmPasswordHandler = (event) => {
-      setConfirmPassword(event.currentTarget.value)
+      setConfirmPassword(event.currentTarget.value);
   }
-  /*
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
 
-    if (Password !== ConfirmPassword) {
-        return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
-    }
+  useEffect(() => {
+    
+    if(authstate.auth){
+      console.log("you already login");
+      navigate('/');
 
-    let body = {
-        email: Email,
-        password: Password,
-        name: Name
+    }else{
+      console.log("카몬 mate");
     }
-    dispatch(registerUser(body))
-        .then(response => {
-            if (response.payload.success) {
-              navigate('/login');
-            } else {
-                alert("Failed to sign up")
-            }
-        })
+    return () => {
+      
     }
-    */
+  }, [])
 
 
   return (

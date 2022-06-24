@@ -17,7 +17,7 @@ export default function Mypage() {
 
   console.log("authstate",authstate);
   useEffect(()=>{
-    
+
     if(!authstate.auth){
       console.log("your not login back to main");
       navigate('/');
@@ -30,6 +30,7 @@ export default function Mypage() {
   },[])
 
   const getMyPosts = () => {
+    //로그인일때 로그인 & 회원가입에 접근 못하게
     //username 받아옴
     // axios.request({
     //   method:'GET',
