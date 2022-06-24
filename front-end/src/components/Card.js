@@ -12,11 +12,11 @@ export default function Card(props) {
       </a>
       <div className='card_content'>
         <span className='title'>제목</span>
-        <span className='created_at'>날짜</span>
+        <span className='created_at'>{props.created_at}</span>
         <div className='divider'></div>
         <div className='user'>
           <img className='image' src='logo192.png' />
-          <span className='username'>username</span>
+          <span className='username'>{props.username}</span>
         </div>
       </div>
     </div>
