@@ -31,11 +31,6 @@ module.exports = {
       await newUser.setPassword(password);
       await newUser.save();
 
-      const token = newUser.generateToken();
-      res.cookie("JWT_token", token, {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
       res.status(200).send(newUser.hidePw());
     } catch (e) {
       res.status(404).send(e);
