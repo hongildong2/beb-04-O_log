@@ -43,7 +43,7 @@ export default function Navbar() {
         }
         {authstate.auth ? 
           <span>
-            <Link to='mypage'><span className={location.pathname === '/mypage' ? 'navbar_link active':'navbar_link' }>my page</span></Link>
+            <Link to={`mypage/${authstate.username}`}><span className={location.pathname === `/mypage/${authstate.username}` ? 'navbar_link active':'navbar_link' }>my page</span></Link>
             <span className='navbar_link logout' onClick={handleLogout}>logout</span>
           </span>
           :

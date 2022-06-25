@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import Mynft from '../components/Mynft'
 import Orginfo from '../components/Olginfo'
@@ -13,17 +13,21 @@ export default function Mypage() {
   const [myPosts, setMyPosts] = useState([])
   const { authstate } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const temp = [1,2,3,4,5]
 
   useEffect(()=>{
+    console.log(authstate)
+    // if(!authstate.auth){
+    //   console.log("your not login back to main");
+    //   navigate('/');
 
-    if(!authstate.auth){
-      //console.log("your not login back to main");
-      navigate('/');
-
-    }else{
-      //console.log("login true");
-      getMyPosts();
-    }
+    // }else{
+    //   console.log("login true");
+    //   getMyPosts();
+    // }
+    getMyPosts();
     
   },[])
 
@@ -44,15 +48,19 @@ export default function Mypage() {
 
   return (
     <div className='mypage'>
+      {location.pathname.slice(8) === authstate.username ?
       <div className='mypage_form'>
-        <Uploadpost getMyPosts={getMyPosts} />
-      </div>
+      <Uploadpost getMyPosts={getMyPosts} />
+    </div> :
+    ''}
       <div className='mypage_container'>
         <div className='mypage_info'>
           <div className='title'>
-            <div>오늘의 eunmin 님</div>
+            <div>오늘의 {location.pathname.slice(8)} 님</div>
           </div>
-          <Orginfo />
+          {location.pathname.slice(8) === authstate.username ?
+            <Orginfo />
+          :''}
           <div className='posts_info'>
             <span>올린 포스트 </span>
             <span>{myPosts.length} 개</span>
@@ -67,6 +75,16 @@ export default function Mypage() {
           <div className='mypost_container'>
             {myPosts.map((el, idx) => {
               return <Card key={idx} postImageUrl={el.postImageUrl} title={el.title} created_at={el.created_at} username={el.username}/>
+            })}
+          </div>
+        </div>
+        <div className='mypage_comment'>
+          <div className='title'>
+            <div>Comments</div>
+          </div>
+          <div className='comments_container'>
+            {temp.map((el, idx) => {
+              return <div>댓글</div>
             })}
           </div>
         </div>
