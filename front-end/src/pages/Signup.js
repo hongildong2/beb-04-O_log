@@ -19,12 +19,12 @@ export default function Signup() {
   useEffect(() => {
 
     if(authstate.auth){
-      console.log("you already login");
+      //console.log("you already login");
       navigate('/');
 
   
     }else{
-      console.log("카몬 mate");
+      //console.log("카몬 mate");
     }
   
   }, [])
@@ -61,7 +61,7 @@ export default function Signup() {
     })
     .then((res) => {
       console.log(res.data)
-      navigate('/login')
+      navigate('/login');
     })
     .catch((err) => {
       if(err.response.status === 409) {

@@ -8,12 +8,11 @@ import Uploadpost from '../components/Uploadpost'
 import { AuthContext } from '../context/store'
 import './Mypage.css'
 
+
 export default function Mypage() {
   const [myPosts, setMyPosts] = useState([])
-  const [link, setlink] = useState('')
   const { authstate } = useContext(AuthContext);
   const navigate = useNavigate();
-
 
   useEffect(()=>{
 
@@ -25,7 +24,7 @@ export default function Mypage() {
       //console.log("login true");
       getMyPosts();
     }
-
+    
   },[])
 
   const getMyPosts = () => {
@@ -43,8 +42,6 @@ export default function Mypage() {
     })
   }
 
- 
-
   return (
     <div className='mypage'>
       <div className='mypage_form'>
@@ -53,7 +50,7 @@ export default function Mypage() {
       <div className='mypage_container'>
         <div className='mypage_info'>
           <div className='title'>
-            <div>오늘의 {authstate.username} 님</div>
+            <div>오늘의 eunmin 님</div>
           </div>
           <Orginfo />
           <div className='posts_info'>
@@ -69,7 +66,6 @@ export default function Mypage() {
           <div className='title'>Your Posts</div>
           <div className='mypost_container'>
             {myPosts.map((el, idx) => {
-              //아직 pull 전이라 미흡
               return <Card key={idx} postImageUrl={el.postImageUrl} title={el.title} created_at={el.created_at} username={el.username}/>
             })}
           </div>

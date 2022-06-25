@@ -11,9 +11,11 @@ export default function Card(props) {
         <img className='card_image' src={props.postImageUrl} />
       </a>
       <div className='card_content'>
-        <span className='title'>{props.title}</span>
-        <div className='created_at'>
-          <span className='created_at_element'>{props.created_at.slice(0,10)}</span>
+        <div className='card_content_main'>
+          <span className='title'>{props.title}</span>
+          <div className='created_at'>
+            <span className='created_at_element'>{props.created_at.slice(0,10)}</span>
+          </div>
         </div>
         <div className='divider'></div>
         <div className='user'>
