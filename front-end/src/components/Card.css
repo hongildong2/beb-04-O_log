@@ -30,12 +30,16 @@
 
 .card_content > .title{
   font-weight: bold;
-  font-size: 20px;
-  margin-bottom: 7px;
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
 .card_content .created_at{
   margin-bottom: 7px;
+  color: var(--sub-text-color);
+  display: flex;
+  justify-content: end;
+  width: 100%;  
 }
 
 .card_content .user{

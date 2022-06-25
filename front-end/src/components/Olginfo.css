@@ -1,4 +1,4 @@
-.org_info {
+.olg_info {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -9,15 +9,15 @@
   padding: 8px;
 }
 
-.org_element {
+.olg_element {
   margin: 2px 0;
 }
 
-.org_info .sub {
+.olg_info .sub {
   color: gray;
 }
 
-.org_info .big {
+.olg_info .big {
   font-size: 30px;
 }
 
@@ -27,7 +27,7 @@
   justify-content: end;
 }
 
-.org_element > button {
+.olg_element > button {
   border: none;
   background-color:var(--green-color);
   width: 70px;

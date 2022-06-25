@@ -61,10 +61,15 @@ export default function Signup() {
     })
     .then((res) => {
       console.log(res.data)
+      navigate('/login')
     })
     .catch((err) => {
-      console.log(err)
+      if(err.response.status === 409) {
+        alert('이미 존재하는 username 입니다.')
+      }
+      else{
       alert('Failed to sign up')
+      }
     })
   }
 

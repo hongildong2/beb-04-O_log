@@ -1,20 +1,20 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/store'
-import './Orginfo.css'
+import './Olginfo.css'
 
-export default function Orginfo() {
-  const [myORG, setMyORG] = useState(0)
+export default function OLGinfo() {
+  const [myOLG, setMyOLG] = useState(0)
   const {authstate} = useContext(AuthContext);
   const temp = {
     total: 20,
     received: 15
-  } //내 org get 요청
+  } //내 OLG get 요청
   useEffect(() => {
-    getMyORG()
+    getMyOLG()
   }, [])
 
-  const getMyORG = () => {
+  const getMyOLG = () => {
     //user 정보 받아오기
     // axios.request({
     //   method: 'GET',
@@ -23,7 +23,7 @@ export default function Orginfo() {
     // })
     // .then((res) => {
     //   console.log(res.data);
-    //   setMyORG(res.data)
+    //   setMyOLG(res.data)
     // })
     // .catch((err) => {
     //   console.log(err);
@@ -42,7 +42,7 @@ export default function Orginfo() {
     // })
     // .then((res) => {
     //   console.log(res)
-    //   getMyORG();
+    //   getMyOLG();
     // })
     // .catch((err) => {
     //   console.log(err)
@@ -50,11 +50,11 @@ export default function Orginfo() {
   }
 
   return (
-    <div className='org_info'>
-        <div className='org_element sub'>total</div>
-        <div className='org_element big'>{temp.total} ORG</div>
-        <div className='org_element sub'>사용가능한 ORG {temp.received}</div>
-        <div className='org_element section'>
+    <div className='olg_info'>
+        <div className='olg_element sub'>total</div>
+        <div className='olg_element big'>{temp.total} OLG</div>
+        <div className='olg_element sub'>사용가능한 OLG {temp.received}</div>
+        <div className='olg_element section'>
           <button onClick={handleSync}>sync</button>
         </div>
     </div>
