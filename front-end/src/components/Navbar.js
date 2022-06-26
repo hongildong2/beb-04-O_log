@@ -2,11 +2,14 @@ import axios from 'axios';
 import React, { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/store';
+
 import './Navbar.css'
 
 export default function Navbar() {
+
   const {authstate, logout} = useContext(AuthContext);
   const location = useLocation();
+
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -23,8 +26,10 @@ export default function Navbar() {
       console.log(err);
     })
   }
-  return (
-    <div className='navbar'>
+
+    return (
+
+      <div className='navbar'>
       <Link to='/'>
         <div className='title'>오늘의 Log</div>
       </Link>
@@ -50,4 +55,7 @@ export default function Navbar() {
       </div>
     </div>
   )
+
+ 
+
 }
