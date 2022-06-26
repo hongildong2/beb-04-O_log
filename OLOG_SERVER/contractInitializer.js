@@ -117,6 +117,7 @@ async function initializer() {
             { new: true }
           );
           console.log("DB Updated", DBResult);
+          process.exit();
         } else {
           console.log("ERC20 Initial Mint Failed");
         }

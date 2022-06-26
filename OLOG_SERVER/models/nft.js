@@ -9,7 +9,7 @@ const nftSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  NFTRewardFactor: {
+  NFTrewardFactor: {
     type: Number,
   },
   ownerUsername: {
