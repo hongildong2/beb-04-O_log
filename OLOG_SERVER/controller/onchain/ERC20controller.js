@@ -5,11 +5,7 @@ const Web3 = require("web3");
 const { LOCAL_GANACHE, ERC20_ADDRESS, SERVER_ADDRESS, SERVER_PRIVATE_KEY } =
   process.env;
 const User = require("../../models/user");
-const {
-  abi,
-  bytecode,
-} = require("../../truffle/build/contracts/ProjectERC20.json");
-const { sign } = require("jsonwebtoken");
+const ERC20_abi = require("../../truffle/build/contracts/OLOG_ERC20.json").abi;
 
 module.exports = {
   walletSync: async (req, res) => {
@@ -21,7 +17,7 @@ module.exports = {
     const userwalletaddress = queryResult.address;
 
     Contract.setProvider(LOCAL_GANACHE);
-    let contract = new Contract(abi, ERC20_ADDRESS);
+    let contract = new Contract(ERC20_abi, ERC20_ADDRESS);
     const ERC20balance = await contract.methods
       .balanceOf(userwalletaddress)
       .call();
@@ -44,33 +40,33 @@ module.exports = {
       };
 
       // 비용이 발생하는 트랜잭션은 서명을 해야합니다.
-      const serverAccount = await web3.eth.accounts.privateKeyToAccount(
-        SERVER_PRIVATE_KEY
-      );
+      const serverAccount =
+        web3.eth.accounts.privateKeyToAccount(SERVER_PRIVATE_KEY);
       //프라이빗키로 먼저 어카운트 객체를 만든담에
       //그 어카운트 객체로 트랜잭션 객체에 사인
       const signedTx = await serverAccount.signTransaction(tx);
 
       web3.eth.sendSignedTransaction(signedTx.rawTransaction, (err, hash) => {
         if (!err) {
-          receivedToken = receivedToken + expectedToken;
           console.log(receivedToken, hash);
         } else {
           console.log(err);
+          res.send("Transaction Failed");
         }
       });
+      const updatedToken = receivedToken + expectedToken;
 
       const filter = { address: userwalletaddress };
       const update = {
-        receivedToken: receivedToken,
+        receivedToken: updatedToken,
         expectedToken: 0,
       };
       const opt = { new: true };
       let updatedResult = await User.findOneAndUpdate(filter, update, opt);
       const result = {
         username: updatedResult.username,
-        expectedToken: updatedResult.expectedToken,
         receivedToken: updatedResult.receivedToken,
+        expectedToken: updatedResult.expectedToken,
       };
       res.send(result);
     } else {

@@ -37,6 +37,8 @@ contract OLOG_ERC721 is ERC721URIStorage, Ownable {
         reward_factor[newItemId] = 1;
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
+        _approve(msg.sender, newItemId);
+
 
         emit Sold(recipient, msg.sender, nftPrice);
 
@@ -65,6 +67,10 @@ contract OLOG_ERC721 is ERC721URIStorage, Ownable {
         nonce++;
 
         return randomNumber;
+    }
+
+    function totalSupply() public view returns(uint256){
+        return _tokenIds.current();
     }
 
     function upgradeNFT (address owner, uint256 tokenId) public returns(uint256) {
@@ -104,5 +110,9 @@ contract OLOG_ERC721 is ERC721URIStorage, Ownable {
         else{
             revert("Your Item is not upgradable any more");
         }
+    }
+
+    function rewardFactorOf(uint256 tokenId) public view returns(uint256){
+        return reward_factor[tokenId];
     }
 }

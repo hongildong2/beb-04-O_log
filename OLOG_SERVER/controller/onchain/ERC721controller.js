@@ -8,20 +8,21 @@ const {
   SERVER_ADDRESS,
   SERVER_PRIVATE_KEY,
 } = process.env;
-const ERC721_abi = require("../../truffle/build/contracts/OLOG_ERC721.json");
-const ERC20_abi = require("../../truffle/build/contracts/OLOG_ERC20.json");
-const ERC721Contract = new Contract(ERC721_abi, ERC721_ADDRESS);
-const ERC20Contract = new Contract(ERC20_abi, ERC20_ADDRESS);
+const ERC721_abi =
+  require("../../truffle/build/contracts/OLOG_ERC721.json").abi;
+const ERC20_abi = require("../../truffle/build/contracts/OLOG_ERC20.json").abi;
+const web3 = new Web3(LOCAL_GANACHE);
 
-const web3 = Web3(LOCAL_GANACHE);
-const serverAccount = await web3.eth.accounts.privateKeyToAccount(
-  SERVER_PRIVATE_KEY
-);
+const ERC721Contract = new web3.eth.Contract(ERC721_abi, ERC721_ADDRESS);
+const ERC20Contract = new web3.eth.Contract(ERC20_abi, ERC20_ADDRESS);
+
+const serverAccount = web3.eth.accounts.privateKeyToAccount(SERVER_PRIVATE_KEY);
 const User = require("../../models/user");
 const NFT = require("../../models/nft");
 module.exports = {
   ServerNFTBuy: async (req, res) => {
     //토큰 URI랑 해당 사용자 주소 넣고 그냥 바로 mintNFT 실행해버리기
+    //NFTRewardFactor는 민팅시 1로 고정됩니다.
     const { tokenURI, username, price } = req.body;
     //토큰 아이디는 살때 정해짐
 
@@ -51,42 +52,49 @@ module.exports = {
 
     const transactionResult = await web3.eth.sendSignedTransaction(
       signedERC721mintNFTtx.rawTransaction,
-      (err, hash) => {
+      async (err, hash) => {
         if (!err) {
           console.log("Success");
+          //이벤트를 받아올수가 없어서 그냥 메소드 call해서 토큰아이디 받아옴
+          const tokenId = await ERC721Contract.methods.totalSupply().call();
+          //유저 정보도 DB에서 receivedToken 삭제시켜주기
+          await User.findOneAndUpdate(
+            { username: username },
+            { receivedToken: receivedToken - price },
+            { new: true }
+          ).receivedToken;
+
+          // DB에 정보 업데이트, 첫 발행이니까 데이터는 정해져 있음
+          // tokenId, sold로 거래소에 등록은 되었지만 컨트랙트상 발행되지 않은NFT도 DB에 저장( 오너는 서버, sold is false )
+          // 서버가 기존 DB에 NFT 정보만 저장해뒀다 발급하는 시나리오 기준으로 작성, 토큰URL를 이용해 발행해주므로 그것으로 쿼리
+          const filter = { tokenURI: tokenURI };
+          const update = {
+            tokenId: tokenId,
+            ownerUsername: username,
+            ownerAddress: address,
+            price: 99999,
+            sold: true,
+          };
+          const opt = { new: true };
+          let updatedResult = await NFT.findOneAndUpdate(filter, update, opt);
+          res.send(updatedResult);
         } else {
           console.log("mintNFT Fail");
           res.send("Minting Failed");
         }
       }
     );
-    console.log(transactionResult);
-    //이벤트 리스너 추가, 리턴값 받아오기
-    // const tokenId = 받아오기;
 
-    //유저 정보도 DB에서 receivedToken 삭제시켜주기
-    const updateBalance = await User.findOneAndUpdate(
-      { username: username },
-      { receivedToken: receivedToken - price },
-      { new: true }
-    );
+    //컨트랙트 이벤트 리스너
 
-    console.log("balance update", updateBalance);
+    // let EVENT = ERC721Contract.events.Sold();
 
-    //DB에 정보 업데이트, 첫 발행이니까 데이터는 정해져 있음
-    //tokenId, sold로 거래소에 등록은 되었지만 컨트랙트상 발행되지 않은NFT도 DB에 저장( 오너는 서버, sold is false )
-    
-    // const filter = { tokenURI: tokenURI };
-    // const update = {
-    //   tokenId: tokenId,
-    //   ownerUsername: username,
-    //   ownerAddress: address,
-    //   price: 99999,
-    //   sold: true,
-    // };
-    // const opt = { new: true };
-    // let updatedResult = await NFT.findOneAndUpdate(filter, update, opt);
-    // res.send(updatedResult);
+    // await EVENT.on({}, (err, result) => {
+    //   console.log("11");
+    //   console.log(result);
+    // }); 아무리해도 이벤트를 받아오지 않는다...
+
+    // console.log("balance update", updateBalance);
   },
 
   UpgradeNFT: async (req, res) => {
@@ -98,19 +106,21 @@ module.exports = {
     if (!NFTPossessed.includes(tokenId)) res.send("You don't have this NFT");
     //거지인지 아닌지 확인하기
     const { NFTrewardFactor } = await NFT.findBytokenId(tokenId);
-    const price;
+    let price;
 
     if (NFTrewardFactor === 1) {
       //received token 충분한지 확인
       //User 스키마에 check balance메소드 넣기
       price = 100;
+      if (receivedToken < 100) res.send("Not enough balance");
     } else if (NFTrewardFactor === 2) {
       price = 1000;
-      //확인   
-     }
+      if (receivedToken < 1000) res.send("Not enough balance");
+      //확인
+    }
 
     const ERC721_UpgradeNFTData = await ERC721Contract.methods
-      .UpgradeNFT(address, tokenId)
+      .upgradeNFT(address, tokenId)
       .encodeABI();
 
     const ERC721_UpgradeNFTtx = {
@@ -124,72 +134,115 @@ module.exports = {
       ERC721_UpgradeNFTtx
     );
 
-    const transactionResult = await web3.eth.sendSignedTransaction(
+    await web3.eth.sendSignedTransaction(
       signedERC721UpgradeNFTtx.rawTransaction,
-      (err, hash) => {
+      async (err, hash) => {
         if (!err) {
           console.log("Upgrade Transaction success");
-          //DB 정보 업데이트
+          //강화 결과 확인
+          const upgradeResult = await ERC721Contract.methods
+            .rewardFactorOf(tokenId)
+            .call();
+
+          if (price === 100) {
+            //NFTRewardFactor 1 -> 2
+            const updatedToken = receivedToken - price;
+            //잔고 인출 DB반영
+            await User.findOneAndUpdate(
+              { username: username },
+              { receivedToken: updatedToken },
+              { new: true }
+            );
+
+            if (upgradeResult === 2) {
+              console.log("upgrade 1->2 success");
+              await NFT.findOneAndUpdate(
+                { tokenId: tokenId },
+                { NFTrewardFactor: 2 },
+                { new: true }
+              );
+            } else if (upgradeResult === 1) {
+              console.log("upgrade failed");
+            }
+          } else if (price === 1000) {
+            //NFTRewardFactor 2 -> 3
+            const updatedToken = receivedToken - price;
+            //잔고 인출 DB반영
+            await User.findOneAndUpdate(
+              { username: username },
+              { receivedToken: updatedToken },
+              { new: true }
+            );
+            if (upgradeResult === 3) {
+              console.log("upgrade 2->3 success");
+              await NFT.findOneAndUpdate(
+                { tokenId: tokenId },
+                { NFTrewardFactor: 3 },
+                { new: true }
+              );
+            } else if (upgradeResult === 2) {
+              console.log("upgrade failed");
+            }
+          }
         } else {
           console.log("Transaction Fail");
           res.send("Transaction Failed");
         }
       }
     );
-    console.log("transaction", transactionResult);
-
-    //이벤트 리스너 추가, 리턴값 찾기
-    // const reward_factor = 이벤트 리스너로 찾은거
-    // const upgradeResult = 찾은거
-
-    // const updateBalance = await User.findOneAndUpdate(
-    //   { username: username },
-    //   { receivedToken: receivedToken - price },
-    //   { new: true }
-    // );
-
-    // if (upgradeResult === false) {
-    //   res.send("You've Failed");
-    // } else {
-    //   const filter = { tokenId: tokenId };
-    //   const update = { NFTrewardFactor: reward_factor };
-    //   const opt = { new: true };
-
-    //   const updatedResult = await NFT.findOneAndUpdate(filter, update, opt);
-    //   res.send(updatedResult);
-    // }
-
-    //DB정보저장
   },
 
   NFTSell: async (req, res) => {
-    //DB에만 반영해서 마켓플레이스에 올리기
+    const { username, tokenId, price } = req.body;
+    const haveNFT = await User.findByUsername(username).NFTPossessed;
+    if (!haveNFT.includes(tokenId)) res.send("You don't have this NFT");
+    const marketResult = await NFT.findOneAndUpdate(
+      { tokenId: tokenId },
+      { price: price, sold: false },
+      { new: true }
+    );
+
+    res.send(marketResult);
+    //DB에서만 조작
   },
 
   UserNFTBuy: async (req, res) => {
-    //UserNFTSold 메서드 실행
-    const ERC721_mintNFTData = await ERC721Contract.methods
-      .mintNFT(address, tokenURI)
+    //UserNFTSold 메서드 실행, 실제로 스마트컨트랙트에서 체결
+    const { buyer, tokenId, payment } = req.body;
+    //구매자의 유저네임, 판매자의 유저네임, 토큰아이디, 지불금액을 받습니다.
+    const isSelling = await NFT.findBytokenId(tokenId).sold;
+    if (isSelling !== false) res.send("This NFT is not on sale");
+    if (payment < price) res.send("Your payment is not enough");
+
+    const sellerAddress = await NFT.findBytokenId(tokenId).ownerAddress;
+    const buyerAddress = await User.findByUsername(buyer).address;
+
+    const ERC721_userBuy = await ERC721Contract.methods
+      .UserNFTSold(buyerAddress, sellerAddress, tokenId, payment)
       .encodeABI();
 
-    const ERC721_mintNFTTx = {
+    const ERC721_userBuyTx = {
       from: SERVER_ADDRESS,
       to: ERC721_ADDRESS,
       gas: 3000000,
-      data: ERC721_mintNFTData,
+      data: ERC721_userBuy,
     };
 
-    const signedERC721mintNFTTX = await serverAccount.signTransaction(
-      ERC721_mintNFTTx
+    const signedERC721userBuyTx = await serverAccount.signTransaction(
+      ERC721_userBuyTx
     );
 
     web3.eth.sendSignedTransaction(
-      signedERC721mintNFTTX.rawTransaction,
+      signedERC721userBuyTx.rawTransaction,
       (err, hash) => {
         if (!err) {
-          console.log("ERC721 Successfully Initialized");
+          console.log("NFT Sold");
+          await NFT.findOneAndUpdate({tokenId : tokenId}, {ownerUsername : buyer, ownerAddress : buyerAddress, price : payment, sold : true}, {new:true});
+          await User.findOneAndUpdate({username : buyer}, {receivedToken : receivedToken - payment, $push: {NFTPossessed : tokenId}} , {new: true});
+          await User.findOneAndUpdate({address: sellerAddress}, {receivedToken : receivedToken + payment, $pull : {NFTPossessed : {$in :[tokenId]} }}, {new:true});
+          res.send("DB Success");
         } else {
-          console.log("ERC721 Initialization Failed");
+          console.log("Transaction Failed");
         }
       }
     );

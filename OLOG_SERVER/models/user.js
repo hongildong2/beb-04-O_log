@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  // NFTPossessed: { type: [Number] }, //소유한 NFT의 tokenId의 어레이
+  NFTPossessed: { type: [Number] },
 });
 
 userSchema.methods.setPassword = async function (password) {

@@ -9,7 +9,6 @@ contract OLOG_ERC20 is ERC20, Ownable {
     address NFTContract;
 
     constructor() ERC20("OlogRewardToken", "OLOG") {
-        _mint(msg.sender, 10000000);
         NFTContract = address(0x0);
     }
 
