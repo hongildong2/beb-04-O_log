@@ -6,6 +6,7 @@ const cors = require("cors");
 const onchainRouter = require("./router/onchain/index");
 const offchainRouter = require("./router/offchain/index");
 const verifyToken = require("./verifyToken");
+const contractInitializer = require("./contractInitializer");
 
 const app = express();
 
@@ -16,11 +17,12 @@ mongoose
   .then(() => console.log("Successfully connected to mongodb"))
   .catch((e) => console.error(e));
 
-  app.use(cors({origin: ["http://localhost:3000"], credentials: true}));
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(verifyToken);
+app.use(contractInitializer);
 
 //Onchain middlewares
 app.use("/onchain", onchainRouter);

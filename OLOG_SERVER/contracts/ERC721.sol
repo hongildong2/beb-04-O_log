@@ -13,7 +13,7 @@ contract NFTLootBox is ERC721URIStorage, Ownable {
     IERC20 token;
     uint256 nftPrice;
 
-    constructor() ERC721("MyNFTs", "MNFT") {
+    constructor() ERC721("Olog NFTs", "OLOG") {
         nftPrice = 100e18;
     }
 

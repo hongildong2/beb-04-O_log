@@ -60,12 +60,6 @@ module.exports = {
         }
       });
 
-      const TEST = await contract.methods.balanceOf(userwalletaddress).call();
-
-      console.log(TEST);
-
-      // // add ethereum event listene
-
       const filter = { address: userwalletaddress };
       const update = {
         receivedToken: receivedToken,
