@@ -8,6 +8,8 @@ const {
   ERC721_ADDRESS,
   SERVER_ADDRESS,
   SERVER_PRIVATE_KEY,
+  USER_ADDRESS,
+  USER_PRIVATE_KEY,
   MONGO_URI,
 } = process.env;
 const User = require("./models/user");
@@ -90,9 +92,9 @@ async function initializer() {
       }
     );
 
-    //서버 주소로 초기 토큰 민팅
+    //유저 주소로 초기 토큰 민팅
     const ERC20_InitMint = await ERC20Contract.methods
-      .mintToken(SERVER_ADDRESS, 100000)
+      .mintToken(USER_ADDRESS, 100000)
       .encodeABI();
     const ERC20_InitMintTx = {
       from: SERVER_ADDRESS,
@@ -112,7 +114,7 @@ async function initializer() {
           console.log("ERC20 Initial Mint Success");
           //DB에 잔고 반영
           const DBResult = await User.findOneAndUpdate(
-            { username: "server" },
+            { username: "user" },
             { receivedToken: 100000 },
             { new: true }
           );

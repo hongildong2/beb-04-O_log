@@ -1,20 +1,12 @@
 require("dotenv").config();
-const Contract = require("web3-eth-contract");
 const Web3 = require("web3");
-const {
-  LOCAL_GANACHE,
-  ERC20_ADDRESS,
-  ERC721_ADDRESS,
-  SERVER_ADDRESS,
-  SERVER_PRIVATE_KEY,
-} = process.env;
+const { LOCAL_GANACHE, ERC721_ADDRESS, SERVER_ADDRESS, SERVER_PRIVATE_KEY } =
+  process.env;
 const ERC721_abi =
   require("../../truffle/build/contracts/OLOG_ERC721.json").abi;
-const ERC20_abi = require("../../truffle/build/contracts/OLOG_ERC20.json").abi;
 const web3 = new Web3(LOCAL_GANACHE);
 
 const ERC721Contract = new web3.eth.Contract(ERC721_abi, ERC721_ADDRESS);
-const ERC20Contract = new web3.eth.Contract(ERC20_abi, ERC20_ADDRESS);
 
 const serverAccount = web3.eth.accounts.privateKeyToAccount(SERVER_PRIVATE_KEY);
 const User = require("../../models/user");
@@ -112,7 +104,7 @@ module.exports = {
     //거지인지 아닌지 확인하기
     const { NFTrewardFactor } = await NFT.findBytokenId(tokenId);
     console.log("DB NFTrewardFactor", NFTrewardFactor);
-    if (NFTrewardFactor === 3) return res.send("Fully upgraded");
+    if (NFTrewardFactor === 3) return res.send("3"); //meaning fully upgraded
     let price = NFTrewardFactor === 1 ? 100 : 1000; // 1이면 백원 2면 천원;
 
     if (receivedToken < 100 && NFTrewardFactor === 1)
@@ -172,8 +164,10 @@ module.exports = {
             { NFTrewardFactor: 2 },
             { new: true }
           );
+          return res.send("1"); //1번은 1->2에성공했다는듯
         } else if (upgradeResult === 1) {
           console.log("upgrade failed");
+          return res.send("0"); //0번은 업그레이드 실패
         }
       } else if (price === 1000) {
         //NFTRewardFactor 2 -> 3
@@ -192,11 +186,12 @@ module.exports = {
             { NFTrewardFactor: 3 },
             { new: true }
           );
+          return res.send("2"); //2번은 2->3에 성공했다는 뜻
         } else if (upgradeResult === 2) {
           console.log("upgrade failed");
+          return res.send("0");
         }
       }
-      res.send();
     } catch (err) {
       res.send(err);
     }

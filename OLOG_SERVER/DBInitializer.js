@@ -1,9 +1,8 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const {
-  LOCAL_GANACHE,
-  ERC20_ADDRESS,
-  ERC721_ADDRESS,
+  USER_ADDRESS,
+  USER_PRIVATE_KEY,
   SERVER_ADDRESS,
   SERVER_PRIVATE_KEY,
   MONGO_URI,
@@ -29,6 +28,19 @@ async function dbInitializer() {
       NFTPossessed: [],
     }
   );
-  await NFT.findOneAndUpdate({ tokenURI: "AAA" }, { tokenId: -1 });
+  await User.findOneAndUpdate(
+    { username: "user" },
+    {
+      address: USER_ADDRESS,
+      privateKey: USER_PRIVATE_KEY,
+      receivedToken: 0,
+      expectedToken: 0,
+      NFTPossessed: [],
+    }
+  );
+  await NFT.findOneAndUpdate(
+    { tokenURI: "AAA" },
+    { tokenId: -1, NFTrewardFactor: 1 }
+  );
   process.exit();
 }

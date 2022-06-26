@@ -1,5 +1,6 @@
 const Post = require("../../models/post");
 const User = require("../../models/user");
+const NFT = require("../../models/nft");
 const ogs = require("open-graph-scraper");
 
 module.exports = {
@@ -54,14 +55,19 @@ module.exports = {
 
     try {
       await newPost.save();
-      const { expectedToken } = await User.findByUsername(
+      const { expectedToken, NFTPossessed } = await User.findByUsername(
         res.locals.user.username
       );
+      // const rewards = await NFT.find({ tokenId: { $in: NFTPossessed } });
+      // //rewards is array of all possessing NFT rewardfactor
+      // const sumOfRewardFactor= rewards.reduce((prv, cur) => prv + cur, 0);
+      // const reward = sumOfRewardFactor * 10....;
+
       const reward = 10;
       const rewardedToken = expectedToken + reward;
       const filter = { username: res.locals.user.username };
       const update = { expectedToken: rewardedToken };
-      let result = await User.findOneAndUpdate(filter, update, {
+      await User.findOneAndUpdate(filter, update, {
         returnDocument: "after",
       });
       res.status(200).send(newPost);

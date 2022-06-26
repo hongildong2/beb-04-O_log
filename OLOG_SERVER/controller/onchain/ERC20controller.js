@@ -15,6 +15,7 @@ module.exports = {
     let expectedToken = queryResult.expectedToken;
     let receivedToken = queryResult.receivedToken;
     const userwalletaddress = queryResult.address;
+    if (expectedToken === 0) return res.send("Don't need to sync");
 
     Contract.setProvider(LOCAL_GANACHE);
     let contract = new Contract(ERC20_abi, ERC20_ADDRESS);
