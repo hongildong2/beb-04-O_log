@@ -1,11 +1,7 @@
 
-import {Cookies} from 'react-cookie';
-const cookies = new Cookies()
-const getCookie = () => {
-  return cookies.get('JWT_token')
-}
+
 export const initialState = {
-  auth: getCookie() ? true :false,
+  auth: false,
   username: undefined
 }
 
@@ -15,14 +11,14 @@ export const authReducer = (state, action) => {
       return{
         ...state,
         auth: true,
-        username: action.user.username,
+        username: action.username,
 
       }
     case 'LOGOUT': 
       return{
         ...state,
         auth: false,
-        username: '',
+        username: undefined,
       }
     default:
       throw new Error('error')

@@ -2,9 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 //import { useDispatch } from 'react-redux';
 //import { registerUser } from '../../../_actions/user_action';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../context/store';
 import axios from 'axios';
 import './Login.css'
+import { AuthContext } from '../context/store';
 
 export default function Login() {
   //const dispatch = useDispatch();
@@ -25,17 +25,17 @@ export default function Login() {
   useEffect(() => {
 
     if(authstate.auth){
-      console.log("you already login");
+      //console.log("you already login");
       navigate('/');
 
     }else{
-      console.log("카몬 mate");
+      //console.log("카몬 mate");
     }
     return () => {
     }
   }, [])
 
-  const onSubmitHandler = (event)=> {
+  const onSubmitHandler = ()=> {
     // console.log('submit1');
     // event.preventDefault(); // 페이지 리프레시가 안됨
     // console.log('submit2');
@@ -58,9 +58,16 @@ export default function Login() {
     })
     .catch((err) => {
       console.log(err)
-      alert('Error')
+      if(err.response.status === 401) alert('잘못된 비밀번호 입니다.')
+      else alert('Error')
     })
 
+  }
+
+  const onKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      onSubmitHandler();
+    }
   }
 
 
@@ -72,8 +79,8 @@ export default function Login() {
 
     <div className='inputs'>
 
-      <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" />
-      <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" />
+      <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" onKeyPress={onKeyPress} />
+      <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" onKeyPress={onKeyPress} />
       
       <br />
       <div className='submit'>

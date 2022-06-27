@@ -3,7 +3,7 @@ import Nftcard from '../components/Nftcard'
 import './Marketplace.css'
 
 export default function Marketplace() {
-  let temp = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+  let temp = [{name:'ad'},2,3,4,5,6,7,8,9,10,11,12,13,14]
   return (
     <div className='marketplace'>
       <div className='typo'>
