@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  NFTPossessed: { type: [Number] },
 });
 
 userSchema.methods.setPassword = async function (password) {
