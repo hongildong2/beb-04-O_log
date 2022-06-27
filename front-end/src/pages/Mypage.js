@@ -31,6 +31,7 @@ export default function Mypage() {
     
   },[])
 
+  //location.pathname의 포스트 호출(인증 상관없이)
   const getMyPosts = () => {
     axios.request({
       method:'GET',
