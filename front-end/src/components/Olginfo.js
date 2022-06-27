@@ -31,22 +31,26 @@ export default function OLGinfo() {
   }
 
   const handleSync = () => { //post 요청
-    //username 받아오기
-    // axios.request({
-    //   method: 'POST',
-    //   url:'',
-    //   headers:{'Authorization': `Bearer ${토큰}`},
-    //   body:{
-    //     username: {}
-    //   }
-    // })
-    // .then((res) => {
-    //   console.log(res)
-    //   getMyOLG();
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    // })
+
+    if(!authstate.username) {
+      alert('로그인이 필요합니다.')
+      return;
+    }
+    axios.request({
+      method: 'POST',
+      url:'http://localhost:3030/onchain/walletSync',
+      data:{
+        username: authstate.username
+      },
+      withCredentials: true
+    })
+    .then((res) => {
+      console.log(res)
+      getMyOLG();
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
   return (
