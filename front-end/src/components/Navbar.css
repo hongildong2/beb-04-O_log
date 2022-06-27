@@ -22,3 +22,12 @@ a {
   text-decoration: none;
   color: #000000;
 }
+
+.navbar .logout {
+  cursor: pointer;
+}
+
+.navbar .active {
+  font-weight: bold;
+  color: var(--green-color)
+}

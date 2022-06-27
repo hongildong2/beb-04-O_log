@@ -1,11 +1,16 @@
-import axios from 'axios';
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../context/store';
+import axios from 'axios'
 import './Uploadpost.css'
+import { AuthContext } from '../context/store';
 
-export default function Uploadpost() {
-  const {authstate} = useContext(AuthContext);
+export default function Uploadpost(props) {
   const [link, setlink] = useState('')
+  const {authstate} = useContext(AuthContext);
+
+
+  const handlelink = (e) => {
+    setlink(e.target.value)
+  }
 
   const handleSubmit = () => { //인증 여부 확인 후 post 요청
     if(!link) return;
@@ -16,19 +21,17 @@ export default function Uploadpost() {
     axios.request({
       method: 'POST',
       url:'http://localhost:3030/offchain/posts',
-      body:{blogLink: link},
+      data: {blogLink: link},
       withCredentials: true
     })
     .then((res) => {
-      console.log(res);
+      alert('업로드 완료!')
+      if(props.getMyPosts) props.getMyPosts();
       setlink('')
     })
     .catch((err) => console.log(err))
   }
 
-  const handlelink = (e) => {
-    setlink(e.target.value)
-  }
   return (
     <div className='form_container'>
       <div className='title'>Upload Your Post</div>

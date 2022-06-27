@@ -3084,7 +3084,11 @@
     "iconv-lite" "^0.6.3"
     "validator" "^13.7.0"
 
+<<<<<<< HEAD
 "openzeppelin-solidity@4.6.0":
+=======
+"openzeppelin-solidity@^4.6.0":
+>>>>>>> d4070e2c830b80afb2aa9ea108a381935f1603e1
   "integrity" "sha512-Os4FUzc5V+4U2lpFyJA0kWh5fy3AZhYgS8CmB3Db4c4NGd3SsjFzuvWjBybn7NA4KZG7Gf6Lb7BdS8Cxb8Adtw=="
   "resolved" "https://registry.npmjs.org/openzeppelin-solidity/-/openzeppelin-solidity-4.6.0.tgz"
   "version" "4.6.0"
