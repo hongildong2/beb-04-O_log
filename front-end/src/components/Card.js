@@ -8,11 +8,15 @@ export default function Card(props) {
     <div className='card'>
       <div className='card_reward'>Reward</div>
       <a href={tempUrl} target="_blank">
-        <img className='card_image' src='logo192.png' />
+        <img className='card_image' src={props.postImageUrl} />
       </a>
       <div className='card_content'>
-        <span className='title'>제목</span>
-        <span className='created_at'>{props.created_at}</span>
+        <div className='card_content_main'>
+          <span className='title'>{props.title}</span>
+          <div className='created_at'>
+            <span className='created_at_element'>{props.created_at.slice(0,10)}</span>
+          </div>
+        </div>
         <div className='divider'></div>
         <div className='user'>
           <img className='image' src='logo192.png' />

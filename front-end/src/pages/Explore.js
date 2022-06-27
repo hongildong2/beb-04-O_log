@@ -17,10 +17,11 @@ export default function Explore() {
       url:'http://localhost:3030/offchain/posts'
     })
     .then((res) => {
+      //console.log(res.data)
       setPosts(res.data);
     })
     .catch((err) => {
-      console.log(err)
+      //console.log(err)
     })
   }
 
@@ -28,7 +29,7 @@ export default function Explore() {
     <div className='explore'>
       <div className='container'>
         {posts.map((el, idx) => {
-          return <Card key={idx} created_at={el.created_at} username={el.username} />
+          return <Card key={idx} postImageUrl={el.postImageUrl} title={el.title} created_at={el.created_at} username={el.username} />
         })}
       </div>
     </div>

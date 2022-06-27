@@ -1,54 +1,51 @@
-import axios from 'axios';
-import React, { useState, useEffect, useContext } from 'react';
-import Card from '../components/Card';
-import Mynft from '../components/Mynft';
-import Orginfo from '../components/Orginfo';
-import Uploadpost from '../components/Uploadpost';
-import { AuthContext } from '../context/store';
+import axios from 'axios'
+import React, { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Card from '../components/Card'
+import Mynft from '../components/Mynft'
+import Orginfo from '../components/Olginfo'
+import Uploadpost from '../components/Uploadpost'
+import { AuthContext } from '../context/store'
 import './Mypage.css'
-import { useNavigate } from "react-router-dom";
 
 
 export default function Mypage() {
-  let temp= [1,2,3,4,5,6,7,8,9,10,11]
-  const [myPosts, setMyPosts] = useState();
+  const [myPosts, setMyPosts] = useState([])
   const { authstate } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log("authstate",authstate);
   useEffect(()=>{
 
     if(!authstate.auth){
-      console.log("your not login back to main");
+      //console.log("your not login back to main");
       navigate('/');
 
     }else{
-      console.log("login true");
+      //console.log("login true");
       getMyPosts();
     }
     
   },[])
 
   const getMyPosts = () => {
-    //로그인일때 로그인 & 회원가입에 접근 못하게
-    //username 받아옴
-    // axios.request({
-    //   method:'GET',
-    //   url: '',
-    //   headers: {'Authorization': `Bearer ${토큰}`}
-    // })
-    // .then((res) => {
-    //   setMyPosts(res.data)
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    // })
+    axios.request({
+      method:'GET',
+      url: 'http://localhost:3030/offchain/posts/mypage',
+      withCredentials: true
+    })
+    .then((res) => {
+      //console.log(res.data)
+      setMyPosts(res.data)
+    })
+    .catch((err) => {
+      //console.log(err)
+    })
   }
 
   return (
     <div className='mypage'>
       <div className='mypage_form'>
-        <Uploadpost />
+        <Uploadpost getMyPosts={getMyPosts} />
       </div>
       <div className='mypage_container'>
         <div className='mypage_info'>
@@ -58,7 +55,7 @@ export default function Mypage() {
           <Orginfo />
           <div className='posts_info'>
             <span>올린 포스트 </span>
-            <span>{temp.length} 개</span>
+            <span>{myPosts.length} 개</span>
           </div>
           <div className='posts_info'>
             잔디
@@ -68,8 +65,8 @@ export default function Mypage() {
         <div className='mypage_posts'>
           <div className='title'>Your Posts</div>
           <div className='mypost_container'>
-            {temp.map((el, idx) => {
-              return <Card key={idx} />
+            {myPosts.map((el, idx) => {
+              return <Card key={idx} postImageUrl={el.postImageUrl} title={el.title} created_at={el.created_at} username={el.username}/>
             })}
           </div>
         </div>

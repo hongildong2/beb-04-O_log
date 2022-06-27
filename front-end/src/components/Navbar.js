@@ -37,19 +37,19 @@ export default function Navbar() {
         {location.pathname === '/' ?
           '':
           <span>
-            <Link to='explore'><span className='navbar_link'>explore</span></Link>
-            <Link to='marketplace'><span className='navbar_link'>market place</span></Link>
+            <Link to='explore'><span className={location.pathname === '/explore' ? 'navbar_link active':'navbar_link' } >explore</span></Link>
+            <Link to='marketplace'><span className={location.pathname === '/marketplace' ? 'navbar_link active':'navbar_link' }>market place</span></Link>
           </span>
         }
         {authstate.auth ? 
           <span>
-            <Link to='mypage'><span className='navbar_link'>my page</span></Link>
-            <span className='navbar_link' onClick={handleLogout}>logout</span>
+            <Link to='mypage'><span className={location.pathname === '/mypage' ? 'navbar_link active':'navbar_link' }>my page</span></Link>
+            <span className='navbar_link logout' onClick={handleLogout}>logout</span>
           </span>
           :
           <span>
-            <Link to='login'><span className='navbar_link'>log in</span></Link>
-            <Link to='signup'><span className='navbar_link'>sign up</span></Link>
+            <Link to='login'><span className={location.pathname === '/login' ? 'navbar_link active':'navbar_link' }>log in</span></Link>
+            <Link to='signup'><span className={location.pathname === '/signup' ? 'navbar_link active':'navbar_link' }>sign up</span></Link>
           </span>
         }
       </div>
