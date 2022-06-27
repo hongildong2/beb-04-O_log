@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "chain-init": "node contractInitializer.js",
-    "db-init": "node DBInitializer.js"
+    "db-init": "node DBInitializer.js",
+    "backend": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",

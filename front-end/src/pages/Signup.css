@@ -32,7 +32,7 @@
   width: 100%;
 }
 
-.inputs input{
+.form_container .inputs input{
   border: none;
   margin: 3px 0;
   height: 35px;
@@ -40,7 +40,7 @@
   border-radius: 5px;
 }
 
-.submit {
+.form_container .submit {
   display: flex;
   justify-content: center;
   align-items: center;
