@@ -1,9 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Card.css'
 
 export default function Card(props) {
   const tempUrl='https://github.com/codestates/beb-04-O_log'
+  const navigate = useNavigate()
 
+  const handleClick = () => {
+    navigate(`/mypage/${props.username}`)
+  }
   return (
     <div className='card'>
       <div className='card_reward'>Reward</div>
@@ -18,7 +23,7 @@ export default function Card(props) {
           </div>
         </div>
         <div className='divider'></div>
-        <div className='user'>
+        <div className='user' onClick={handleClick}>
           <img className='image' src='logo192.png' />
           <span className='username'>{props.username}</span>
         </div>

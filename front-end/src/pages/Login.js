@@ -35,7 +35,7 @@ export default function Login() {
     }
   }, [])
 
-  const onSubmitHandler = (event)=> {
+  const onSubmitHandler = ()=> {
     // console.log('submit1');
     // event.preventDefault(); // 페이지 리프레시가 안됨
     // console.log('submit2');
@@ -64,6 +64,12 @@ export default function Login() {
 
   }
 
+  const onKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      onSubmitHandler();
+    }
+  }
+
 
 
   return (
@@ -73,8 +79,8 @@ export default function Login() {
 
     <div className='inputs'>
 
-      <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" />
-      <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" />
+      <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" onKeyPress={onKeyPress} />
+      <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" onKeyPress={onKeyPress} />
       
       <br />
       <div className='submit'>
