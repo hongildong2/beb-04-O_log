@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import './Card.css'
 
 export default function Card(props) {
-  const tempUrl='https://github.com/codestates/beb-04-O_log'
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -11,8 +10,7 @@ export default function Card(props) {
   }
   return (
     <div className='card'>
-      <div className='card_reward'>Reward</div>
-      <a href={tempUrl} target="_blank">
+      <a href={props.blogLink} target="_blank">
         <img className='card_image' src={props.postImageUrl} />
       </a>
       <div className='card_content'>

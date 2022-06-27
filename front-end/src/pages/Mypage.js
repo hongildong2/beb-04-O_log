@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
+import MyComments from '../components/MyComments'
 import Mynft from '../components/Mynft'
 import Orginfo from '../components/Olginfo'
+import UploadComment from '../components/UploadComment'
 import Uploadpost from '../components/Uploadpost'
 import { AuthContext } from '../context/store'
 import './Mypage.css'
@@ -14,8 +16,6 @@ export default function Mypage() {
   const { authstate } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const temp = [1,2,3,4,5]
 
   useEffect(()=>{
     console.log(authstate)
@@ -39,7 +39,7 @@ export default function Mypage() {
       withCredentials: true
     })
     .then((res) => {
-      //console.log(res.data)
+      console.log(res.data)
       setMyPosts(res.data)
     })
     .catch((err) => {
@@ -57,7 +57,11 @@ export default function Mypage() {
       <div className='mypage_container'>
         <div className='mypage_info'>
           <div className='title'>
-            <div>오늘의 {location.pathname.slice(8)} 님</div>
+            Profile
+          </div>
+          <div className='username'>
+            <div className='label'>username</div>
+            <div>{location.pathname.slice(8)}</div>
           </div>
           {location.pathname.slice(8) === authstate.username ?
             <Orginfo />
@@ -75,7 +79,7 @@ export default function Mypage() {
           <div className='title'>Your Posts</div>
           <div className='mypost_container'>
             {myPosts.map((el, idx) => {
-              return <Card key={idx} postImageUrl={el.postImageUrl} title={el.title} created_at={el.created_at} username={el.username}/>
+              return <Card key={idx} postImageUrl={el.postImageUrl} blogLink={el.blogLink} title={el.title} created_at={el.created_at} username={el.username}/>
             })}
           </div>
         </div>
@@ -83,11 +87,8 @@ export default function Mypage() {
           <div className='title'>
             <div>Comments</div>
           </div>
-          <div className='comments_container'>
-            {temp.map((el, idx) => {
-              return <div>댓글</div>
-            })}
-          </div>
+          <UploadComment />
+          <MyComments />
         </div>
       </div>
     </div>

@@ -37,6 +37,24 @@
   color: var(--green-color)
 }
 
+.mypage_info .username {
+  background-color: #ffffff;
+  width: 100%;
+  height: 78px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  font-size: 30px;
+  border-radius: 10px;
+  padding: 7px 7px 10px 7px;
+}
+
+.username .label {
+  color: var(--sub-text-color);
+  font-size: 15px;
+}
+
 .mypage_info .posts_info{
   background-color: #ffffff;
   width: 100%;

@@ -14,7 +14,8 @@
 }
 
 .olg_info .sub {
-  color: gray;
+  color: var(--sub-text-color);
+  font-size: 15px;
 }
 
 .olg_info .big {
