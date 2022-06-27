@@ -73,10 +73,6 @@ export default function Signup() {
     })
   }
 
-
-
-
-
   return (
     <div className='signup'>
     <div className='form_container'>

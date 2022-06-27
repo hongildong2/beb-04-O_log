@@ -1,12 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-<<<<<<< HEAD
-import './Login.css';
-=======
 import './Login.css'
 import { AuthContext } from '../context/store';
->>>>>>> d4070e2c830b80afb2aa9ea108a381935f1603e1
 
 export default function Login() {
 
@@ -36,17 +32,12 @@ export default function Login() {
     }
   }, [])
 
-<<<<<<< HEAD
-  const onSubmitHandler = (event)=> {
-    
-=======
+
   const onSubmitHandler = ()=> {
     // console.log('submit1');
     // event.preventDefault(); // 페이지 리프레시가 안됨
     // console.log('submit2');
 
-
->>>>>>> d4070e2c830b80afb2aa9ea108a381935f1603e1
     let body = {
       username: Username,
       password: Password
@@ -70,17 +61,13 @@ export default function Login() {
     })
   }
 
-<<<<<<< HEAD
-=======
+
   const onKeyPress = (e) => {
     if(e.key === 'Enter'){
       onSubmitHandler();
     }
   }
 
-
-
->>>>>>> d4070e2c830b80afb2aa9ea108a381935f1603e1
   return (
     <div className='login'>
   <div className='form_container'>
