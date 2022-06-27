@@ -23,7 +23,7 @@ module.exports = {
       .balanceOf(userwalletaddress)
       .call();
 
-    console.log(ERC20balance);
+    console.log("balance before sync : ", ERC20balance);
 
     if (Number(ERC20balance) === receivedToken) {
       const web3 = new Web3(LOCAL_GANACHE);

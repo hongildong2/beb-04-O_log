@@ -21,9 +21,9 @@ module.exports = {
     const result = await User.findByUsername(username);
     const { address, receivedToken, expectedToken } = result;
     if (price > receivedToken + expectedToken)
-      res.send("You don't have enough balance");
+      return res.send("You don't have enough balance");
     if (price > receivedToken)
-      res.send("Please proceed wallet synchronization");
+      return res.send("Please proceed wallet synchronization");
 
     console.log("NFT Buy in progress");
     const ERC721_mintNFTData = await ERC721Contract.methods
@@ -103,7 +103,7 @@ module.exports = {
     if (!NFTPossessed.includes(tokenId)) res.send("You don't have this NFT");
     //거지인지 아닌지 확인하기
     const { NFTrewardFactor } = await NFT.findBytokenId(tokenId);
-    console.log("DB NFTrewardFactor", NFTrewardFactor);
+    console.log("DB NFTrewardFactor : ", NFTrewardFactor);
     if (NFTrewardFactor === 3) return res.send("3"); //meaning fully upgraded
     let price = NFTrewardFactor === 1 ? 100 : 1000; // 1이면 백원 2면 천원;
 
@@ -116,7 +116,7 @@ module.exports = {
     const ERC721_UpgradeNFTData = await ERC721Contract.methods
       .upgradeNFT(address, tokenId)
       .encodeABI();
-
+    ////////////////
     const ERC721_UpgradeNFTtx = {
       from: SERVER_ADDRESS,
       to: ERC721_ADDRESS,
@@ -135,6 +135,7 @@ module.exports = {
         else console.log(err);
       }
     );
+    //////////////// 이부분 나중에 함수화로 리팩터링
 
     //강화 결과 확인
     let upgradeResult = await ERC721Contract.methods
@@ -143,8 +144,8 @@ module.exports = {
     upgradeResult = Number(upgradeResult);
     //체인에서 가져온 모든 데이터는 스트링
 
-    console.log("chain upgrade result", upgradeResult);
-    console.log("upgrade Price", price);
+    console.log("chain upgrade result : ", upgradeResult);
+    console.log("upgrade Price : ", price);
 
     try {
       if (price === 100) {
@@ -199,7 +200,7 @@ module.exports = {
 
   NFTSell: async (req, res) => {
     const { username, tokenId, price } = req.body;
-    const haveNFT = await User.findByUsername(username).NFTPossessed;
+    const haveNFT = (await User.findByUsername(username)).NFTPossessed;
     if (!haveNFT.includes(tokenId)) res.send("You don't have this NFT");
     const marketResult = await NFT.findOneAndUpdate(
       { tokenId: tokenId },
@@ -215,12 +216,12 @@ module.exports = {
     //UserNFTSold 메서드 실행, 실제로 스마트컨트랙트에서 체결
     const { buyer, tokenId, payment } = req.body;
     //구매자의 유저네임, 판매자의 유저네임, 토큰아이디, 지불금액을 받습니다.
-    const isSelling = await NFT.findBytokenId(tokenId).sold;
-    if (isSelling !== false) res.send("This NFT is not on sale");
+    const isSelling = await NFT.findBytokenId(tokenId);
+    if (isSelling.sold !== false) res.send("This NFT is not on sale");
     if (payment < price) res.send("Your payment is not enough");
 
-    const sellerAddress = await NFT.findBytokenId(tokenId).ownerAddress;
-    const buyerAddress = await User.findByUsername(buyer).address;
+    const sellerAddress = (await NFT.findBytokenId(tokenId)).ownerAddress;
+    const buyerAddress = (await User.findByUsername(buyer)).address;
 
     const ERC721_userBuy = await ERC721Contract.methods
       .UserNFTSold(buyerAddress, sellerAddress, tokenId, payment)
@@ -242,7 +243,7 @@ module.exports = {
       async (err, hash) => {
         if (!err) {
           console.log("NFT Sold");
-          await NFT.findOneAndUpdate(
+          const NFTResult = await NFT.findOneAndUpdate(
             { tokenId: tokenId },
             {
               ownerUsername: buyer,
@@ -268,7 +269,7 @@ module.exports = {
             },
             { new: true }
           );
-          res.send("DB Success");
+          res.send(NFTResult);
         } else {
           console.log("Transaction Failed");
         }
