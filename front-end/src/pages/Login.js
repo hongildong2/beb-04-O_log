@@ -1,21 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react'
-//import { useDispatch } from 'react-redux';
-//import { registerUser } from '../../../_actions/user_action';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/store';
 import axios from 'axios';
-import './Login.css'
+import './Login.css';
 
 export default function Login() {
-  //const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const {authstate, login} = useContext(AuthContext)
+  const {authstate, login} = useContext(AuthContext);
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
 
-    const onUsernameHandler = (event) => {
-      setUsername(event.currentTarget.value);
+  const onUsernameHandler = (event) => {
+    setUsername(event.currentTarget.value);
   }
 
   const onPasswordHandler = (event) => {
@@ -27,7 +25,6 @@ export default function Login() {
     if(authstate.auth){
       console.log("you already login");
       navigate('/');
-
     }else{
       console.log("카몬 mate");
     }
@@ -36,15 +33,12 @@ export default function Login() {
   }, [])
 
   const onSubmitHandler = (event)=> {
-    // console.log('submit1');
-    // event.preventDefault(); // 페이지 리프레시가 안됨
-    // console.log('submit2');
-
-
+    
     let body = {
       username: Username,
       password: Password
     }
+
     axios.request({
       method:'POST',
       url:'http://localhost:3030/offchain/auth/login',
@@ -60,10 +54,7 @@ export default function Login() {
       console.log(err)
       alert('Error')
     })
-
   }
-
-
 
   return (
     <div className='login'>
