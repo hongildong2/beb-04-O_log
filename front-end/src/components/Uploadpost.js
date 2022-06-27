@@ -12,7 +12,8 @@ export default function Uploadpost(props) {
     setlink(e.target.value)
   }
 
-  const handleSubmit = () => { //인증 여부 확인 후 post 요청
+  //post 업로드 요청
+  const handleSubmit = () => {
     if(!link) return;
     if(!authstate.auth) {
       alert('로그인 필요')
@@ -27,6 +28,7 @@ export default function Uploadpost(props) {
     .then((res) => {
       alert('업로드 완료!')
       if(props.getMyPosts) props.getMyPosts();
+      if(props.getMyOLG) props.getMyOLG();
       setlink('')
     })
     .catch((err) => console.log(err))
