@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import './Uploadpost.css'
-import { AuthContext } from '../context/store';
+import { AuthContext, MessageContext } from '../context/store';
 
 export default function Uploadpost(props) {
   const [link, setlink] = useState('')
   const {authstate} = useContext(AuthContext);
+  const {notify} = useContext(MessageContext);
 
 
   const handlelink = (e) => {
@@ -16,7 +17,7 @@ export default function Uploadpost(props) {
   const handleSubmit = () => {
     if(!link) return;
     if(!authstate.auth) {
-      alert('로그인 필요')
+      notify('로그인 후 시도해 주세요', 'error')
       return;
     }
     axios.request({

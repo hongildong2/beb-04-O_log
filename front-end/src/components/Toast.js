@@ -17,7 +17,7 @@ export default function Toast({ text, option, dismissTime }) {
   }, [])
 
   return (
-    <div className={`notification ${isFading ? 'fade-out' : ''} ${option}`}>
+    <div className={`notification ${isFading ? 'fade-out ' : ''}${option}`}>
       {text}
     </div>
   )

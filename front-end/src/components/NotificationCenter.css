@@ -23,9 +23,12 @@
   margin: 10px;
 }
 
-
 .notification-container .error{
   color: red
+}
+
+.notification-container .sccess{
+  color: var(--green-color)
 }
 
 .fade-out {

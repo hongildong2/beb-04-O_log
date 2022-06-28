@@ -38,7 +38,7 @@
 
 .mypage_info .username {
   background-color: #ffffff;
-  margin-top: 5px;
+  margin: 10px;
   width: 100%;
   height: 78px;
   display: flex;

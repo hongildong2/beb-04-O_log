@@ -40,8 +40,10 @@ export default function Login() {
     // console.log('submit1');
     // event.preventDefault(); // 페이지 리프레시가 안됨
     // console.log('submit2');
-
-
+    if(Username.length === 0 || Password.length === 0){
+      notify('username, password 모두 입력해주세요', 'error')
+      return;
+    }
     let body = {
       username: Username,
       password: Password

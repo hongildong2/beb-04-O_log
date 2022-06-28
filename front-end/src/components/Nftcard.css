@@ -1,6 +1,15 @@
-.nftcard {
-  width: 180px;
-  margin: 6px;
+.mynfts_container .nftcard {
+  width: 200px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  position: relative;box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.container .nftcard {
+  margin: 20px;
+  width: 200px;
   border-radius: 5px;
   background-color: #ffffff;
   position: relative;box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
@@ -9,7 +18,7 @@
 .nftcard_image{
   position: relative;
   width: 100%;
-  height: 130px;
+  height: 200px;
   z-index: 1;
 }
 

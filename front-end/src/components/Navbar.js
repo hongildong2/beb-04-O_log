@@ -21,7 +21,7 @@ export default function Navbar() {
     })
     .then((res) => {
       logout()
-      notify('로그아웃되었습니다.', 'sucess')
+      notify('로그아웃되었습니다.', 'success')
       navigate('/')
     })
     .catch((err) => {

@@ -20,7 +20,7 @@ export default function Mypage() {
   const location = useLocation();
 
   useEffect(()=>{
-    console.log(authstate)
+    //console.log(authstate)
     // if(!authstate.auth){
     //   console.log("your not login back to main");
     //   navigate('/');
@@ -87,7 +87,7 @@ export default function Mypage() {
       if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요')
       else{
         getMyOLG();
-        notify('sync가 성공적으로 이루어졌습니다!')
+        notify('sync가 성공적으로 이루어졌습니다!', 'success')
       }
     })
     .catch((err) => {
