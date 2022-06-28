@@ -22,8 +22,8 @@ export default function Card(props) {
         </div>
         <div className='divider'></div>
         <div className='user' onClick={handleClick}>
-          <img className='image' src='logo192.png' />
           <span className='username'>{props.username}</span>
+          <img className='image' src='logo192.png' />
         </div>
       </div>
     </div>

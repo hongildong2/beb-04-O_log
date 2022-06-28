@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import Comment from './Comment';
 import axios from 'axios';
-import { AuthContext } from '../context/store';
+import { AuthContext, MessageContext } from '../context/store';
 import './MyComments.css'
 
 export default function MyComments() {
@@ -10,9 +10,11 @@ export default function MyComments() {
   const [comments, setComments] = useState([]);
   const location = useLocation();
   const {authstate} = useContext(AuthContext);
+  const {notify} = useContext(MessageContext)
 
   useEffect(() => {
     getComments();
+    //test();
   },[location.pathname])
 
   //댓글 요청
@@ -38,7 +40,7 @@ export default function MyComments() {
   //댓글 추가 요청
   const handleClick = () => {
     if(!authstate.auth) {
-      alert('로그인이 필요합니다.')
+      notify('로그인이 필요합니다.', 'error')
       return;
     }
     if(!input){
@@ -56,6 +58,7 @@ export default function MyComments() {
     .then((res) => {
       console.log(res)
       setInput('')
+      notify('댓글이 등록되었습니다.','sccuess')
       getComments();
     })
     .catch((err) => {

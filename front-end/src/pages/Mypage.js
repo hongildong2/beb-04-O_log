@@ -7,7 +7,7 @@ import Mynft from '../components/Mynft'
 import MyPosts from '../components/MyPosts'
 import Orginfo from '../components/Olginfo'
 import Uploadpost from '../components/Uploadpost'
-import { AuthContext } from '../context/store'
+import { AuthContext, MessageContext } from '../context/store'
 import './Mypage.css'
 
 
@@ -16,7 +16,7 @@ export default function Mypage() {
   const [received, setReceived] = useState(0);
   const [myPosts, setMyPosts] = useState([])
   const { authstate } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { notify } = useContext(MessageContext);
   const location = useLocation();
 
   useEffect(()=>{
@@ -84,12 +84,15 @@ export default function Mypage() {
       withCredentials: true
     })
     .then((res) => {
-      console.log(res)
-      getMyOLG();
+      if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요')
+      else{
+        getMyOLG();
+        notify('sync가 성공적으로 이루어졌습니다!')
+      }
     })
     .catch((err) => {
       console.log(err)
-      alert('')
+      notify('sync를 다시 시도해주세요')
     })
   }
 
@@ -121,7 +124,7 @@ export default function Mypage() {
         <MyPosts myPosts={myPosts}/>
         <div className='mypage_comment'>
           <div className='title'>
-            <div>Comments</div>
+            Comments
           </div>
           <MyComments />
         </div>

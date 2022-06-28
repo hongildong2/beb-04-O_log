@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/store';
+import { AuthContext, MessageContext } from '../context/store';
 
 import './Navbar.css'
 
 export default function Navbar() {
 
   const {authstate, logout} = useContext(AuthContext);
+  const {notify} = useContext(MessageContext)
   const location = useLocation();
 
   const navigate = useNavigate()
@@ -20,6 +21,7 @@ export default function Navbar() {
     })
     .then((res) => {
       logout()
+      notify('로그아웃되었습니다.', 'sucess')
       navigate('/')
     })
     .catch((err) => {
