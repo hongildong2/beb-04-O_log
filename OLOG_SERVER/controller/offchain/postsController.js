@@ -41,6 +41,7 @@ module.exports = {
       title: result.ogTitle,
       username: res.locals.user.username,
       postImageUrl: result.ogImage.url,
+      faviconUrl: result.favicon,
     });
 
     try {
@@ -48,13 +49,17 @@ module.exports = {
       const { expectedToken, NFTPossessed } = await User.findByUsername(
         res.locals.user.username
       );
-      // const rewards = await NFT.find({ tokenId: { $in: NFTPossessed } });
-      // //rewards is array of all possessing NFT rewardfactor
-      // const sumOfRewardFactor= rewards.reduce((prv, cur) => prv + cur, 0);
-      // const reward = sumOfRewardFactor
+      const rewards = await NFT.find({ tokenId: { $in: NFTPossessed } });
+      const rewardFactors = rewards.map((el) => {
+        return el.NFTrewardFactor;
+      });
+      const sumOfRewardFactor = rewardFactors.reduce(
+        (prv, cur) => prv + cur,
+        0
+      );
+      const finalReward = sumOfRewardFactor * 5;
+      const rewardedToken = expectedToken + finalReward;
 
-      const reward = 10;
-      const rewardedToken = expectedToken + reward;
       const filter = { username: res.locals.user.username };
       const update = { expectedToken: rewardedToken };
       await User.findOneAndUpdate(filter, update, {
