@@ -41,6 +41,7 @@ module.exports = {
       title: result.ogTitle,
       username: res.locals.user.username,
       postImageUrl: result.ogImage.url,
+      faviconUrl: result.favicon,
     });
 
     try {
