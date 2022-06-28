@@ -138,10 +138,9 @@ module.exports = {
     //////////////// 이부분 나중에 함수화로 리팩터링
 
     //강화 결과 확인
-    let upgradeResult = await ERC721Contract.methods
-      .rewardFactorOf(tokenId)
-      .call();
-    upgradeResult = Number(upgradeResult);
+    let upgradeResult = Number(
+      await ERC721Contract.methods.rewardFactorOf(tokenId).call()
+    );
     //체인에서 가져온 모든 데이터는 스트링
 
     console.log("chain upgrade result : ", upgradeResult);
@@ -216,8 +215,8 @@ module.exports = {
     //UserNFTSold 메서드 실행, 실제로 스마트컨트랙트에서 체결
     const { buyer, tokenId, payment } = req.body;
     //구매자의 유저네임, 판매자의 유저네임, 토큰아이디, 지불금액을 받습니다.
-    const isSelling = await NFT.findBytokenId(tokenId);
-    if (isSelling.sold !== false) res.send("This NFT is not on sale");
+    const isSelling = (await NFT.findBytokenId(tokenId)).sold;
+    if (!isSelling) res.send("This NFT is not on sale");
     if (payment < price) res.send("Your payment is not enough");
 
     const sellerAddress = (await NFT.findBytokenId(tokenId)).ownerAddress;
