@@ -41,6 +41,7 @@ module.exports = {
       title: result.ogTitle,
       username: res.locals.user.username,
       postImageUrl: result.ogImage.url,
+      faviconUrl: result.favicon,
     });
 
     try {
@@ -68,13 +69,12 @@ module.exports = {
 
   /* 
     MyPage: 한 명의 유저의 post들을 보내줌
-    Get /offchain/posts/mypage
+    Get /offchain/posts/mypage/:username
 */
   read: async (req, res) => {
-    const { user } = res.locals;
-
+    const username = req.params.username;
     const query = {
-      ...(user.username ? { username: user.username } : {}),
+      ...(username ? { username: username } : {}),
     };
     try {
       const posts = await Post.find(query).exec();
