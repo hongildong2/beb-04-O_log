@@ -23,6 +23,7 @@ module.exports = {
   },
   myNFT: async (req, res) => {
     const username = res.locals.user.username;
+    if (!username) return res.send("Not logged in");
     const queryMyNFT = await NFT.find({ ownerUsername: username });
     const arr = await Promise.all(
       queryMyNFT.map(async (el) => {

@@ -15,8 +15,10 @@ module.exports = {
   ServerNFTBuy: async (req, res) => {
     //토큰 URI랑 해당 사용자 주소 넣고 그냥 바로 mintNFT 실행해버리기
     //NFTRewardFactor는 민팅시 1로 고정됩니다.
-    const { tokenURI, username, price } = req.body;
+    const { tokenURI } = req.body;
     //토큰 아이디는 살때 정해짐
+    const username = res.locals.user.username;
+    if (!username) return res.send("Not logged in");
 
     const result = await User.findByUsername(username);
     const { address, receivedToken, expectedToken } = result;
