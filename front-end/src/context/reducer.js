@@ -18,7 +18,7 @@ export const authReducer = (state, action) => {
       return{
         ...state,
         auth: false,
-        username: '',
+        username: undefined,
       }
     default:
       throw new Error('error')
