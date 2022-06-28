@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const nftSchema = new mongoose.Schema({
   tokenId: {
     type: Number,
-    unique: true,
     // required: true,
   },
   tokenURI: {
