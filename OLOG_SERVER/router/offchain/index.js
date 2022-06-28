@@ -8,5 +8,4 @@ router.use("/posts", posts);
 router.use("/auth", auth);
 router.use("/nftmarket", nftmarket);
 router.use("/userInfo", userInfo);
-
 module.exports = router;
