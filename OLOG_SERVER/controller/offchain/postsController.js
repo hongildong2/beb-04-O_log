@@ -49,16 +49,22 @@ module.exports = {
       const { expectedToken, NFTPossessed } = await User.findByUsername(
         res.locals.user.username
       );
+      let finalReward = 0;
       const rewards = await NFT.find({ tokenId: { $in: NFTPossessed } });
-      const rewardFactors = rewards.map((el) => {
-        return el.NFTrewardFactor;
-      });
-      const sumOfRewardFactor = rewardFactors.reduce(
-        (prv, cur) => prv + cur,
-        0
-      );
-      const finalReward = sumOfRewardFactor * 5;
+      if (rewards.length !== 0) {
+        const rewardFactors = rewards.map((el) => {
+          return el.NFTrewardFactor;
+        });
+        const sumOfRewardFactor = rewardFactors.reduce(
+          (prv, cur) => prv + cur,
+          0
+        );
+        finalReward = sumOfRewardFactor * 5;
+      } else {
+        finalReward = 10;
+      }
       const rewardedToken = expectedToken + finalReward;
+      console.log(rewardedToken);
 
       const filter = { username: res.locals.user.username };
       const update = { expectedToken: rewardedToken };
