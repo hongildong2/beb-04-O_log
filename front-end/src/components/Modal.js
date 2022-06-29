@@ -16,7 +16,7 @@ export default function(props){
   }else if(path[1] == 'mypage'){
     btn_nftcart = '강화하기';
   }
-
+  /*
   axios.request({
     method: 'GET',
     url:'http://localhost:3030/offchain/nftmarket/myNFT',
@@ -25,7 +25,7 @@ export default function(props){
     console.log('myNFT 응답입니다.',res.data.tokenURI)
   })
   .catch((err) => console.log(err))
-
+  */
 
   const handleSubmit = () => {
      //인증 여부 확인 후 post 요청
