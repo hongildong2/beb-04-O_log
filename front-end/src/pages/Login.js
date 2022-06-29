@@ -1,21 +1,19 @@
-import React, { useContext, useState, useEffect } from 'react'
-//import { useDispatch } from 'react-redux';
-//import { registerUser } from '../../../_actions/user_action';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Login.css'
 import { AuthContext } from '../context/store';
 
 export default function Login() {
-  //const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const {authstate, login} = useContext(AuthContext)
+  const {authstate, login} = useContext(AuthContext);
 
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
 
-    const onUsernameHandler = (event) => {
-      setUsername(event.currentTarget.value);
+  const onUsernameHandler = (event) => {
+    setUsername(event.currentTarget.value);
   }
 
   const onPasswordHandler = (event) => {
@@ -27,7 +25,6 @@ export default function Login() {
     if(authstate.auth){
       //console.log("you already login");
       navigate('/');
-
     }else{
       //console.log("카몬 mate");
     }
@@ -35,16 +32,17 @@ export default function Login() {
     }
   }, [])
 
+
   const onSubmitHandler = ()=> {
     // console.log('submit1');
     // event.preventDefault(); // 페이지 리프레시가 안됨
     // console.log('submit2');
 
-
     let body = {
       username: Username,
       password: Password
     }
+
     axios.request({
       method:'POST',
       url:'http://localhost:3030/offchain/auth/login',
@@ -61,16 +59,14 @@ export default function Login() {
       if(err.response.status === 401) alert('잘못된 비밀번호 입니다.')
       else alert('Error')
     })
-
   }
+
 
   const onKeyPress = (e) => {
     if(e.key === 'Enter'){
       onSubmitHandler();
     }
   }
-
-
 
   return (
     <div className='login'>
