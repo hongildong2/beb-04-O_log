@@ -18,7 +18,7 @@ export default function Explore() {
     })
     .then((res) => {
       //console.log(res.data)
-      setPosts(res.data);
+      setPosts(res.data.reverse());
     })
     .catch((err) => {
       //console.log(err)

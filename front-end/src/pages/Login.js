@@ -62,7 +62,7 @@ export default function Login() {
     .catch((err) => {
       console.log(err)
       if(err.response.data === '잘못된 비밀번호 입니다.') notify('잘못된 비밀번호입니다', 'error')
-      if(err.response.data === '계정이 존재하지 않습니다.') notify('계정이 존재하지 않습니다', 'error')
+      else if(err.response.data === '계정이 존재하지 않습니다.') notify('계정이 존재하지 않습니다', 'error')
       else alert('Error')
     })
   }

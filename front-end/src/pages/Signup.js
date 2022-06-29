@@ -46,6 +46,11 @@ export default function Signup() {
 
   const onSubmitHandler = () => {
 
+    if(!Username || !Password) {
+      notify('username, password 모두 입력해주세요', 'error')
+      return;
+    }
+
     if (Password !== ConfirmPassword) {
         notify('비밀번호와 비밀번호 확인은 같아야 합니다.','error')
         return;

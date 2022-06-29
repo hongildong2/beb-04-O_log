@@ -73,7 +73,17 @@
 }
 
 .g2{
+  margin: 10px
+}
 
+.g2 li{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.g2 li .key{
+  color: var(--sub-text-color);
 }
 
 

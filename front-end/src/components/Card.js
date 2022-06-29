@@ -10,6 +10,7 @@ export default function Card(props) {
   }
 
   const handleLength = (title) => {
+    if(!title) return;
     if(title.length > 48) return title.slice(0,48)+'...'
     else return title;
   }
