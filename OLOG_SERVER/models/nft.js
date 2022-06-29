@@ -7,6 +7,7 @@ const nftSchema = new mongoose.Schema({
   },
   tokenURI: {
     type: String,
+    unique: true,
     // required: true,
   },
   NFTrewardFactor: {

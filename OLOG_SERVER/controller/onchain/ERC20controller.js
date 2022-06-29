@@ -9,8 +9,8 @@ const ERC20_abi = require("../../truffle/build/contracts/OLOG_ERC20.json").abi;
 
 module.exports = {
   walletSync: async (req, res) => {
-    console.log(req.body.username);
-    const username = req.body.username;
+    const username = res.locals.user.username;
+    if (!username) return res.send("Not logged in");
     const queryResult = await User.findByUsername(username);
     let expectedToken = queryResult.expectedToken;
     let receivedToken = queryResult.receivedToken;
