@@ -1,13 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react'
-//import { useDispatch } from 'react-redux';
-//import { registerUser } from '../../../_actions/user_action';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Login.css'
 import { AuthContext, MessageContext } from '../context/store';
 
 export default function Login() {
-  //const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const {authstate, login} = useContext(AuthContext)
   const {notify} = useContext(MessageContext)
@@ -15,8 +13,8 @@ export default function Login() {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
 
-    const onUsernameHandler = (event) => {
-      setUsername(event.currentTarget.value);
+  const onUsernameHandler = (event) => {
+    setUsername(event.currentTarget.value);
   }
 
   const onPasswordHandler = (event) => {
@@ -28,13 +26,13 @@ export default function Login() {
     if(authstate.auth){
       //console.log("you already login");
       navigate('/');
-
     }else{
       //console.log("카몬 mate");
     }
     return () => {
     }
   }, [])
+
 
   const onSubmitHandler = ()=> {
     // console.log('submit1');
@@ -48,6 +46,7 @@ export default function Login() {
       username: Username,
       password: Password
     }
+
     axios.request({
       method:'POST',
       url:'http://localhost:3030/offchain/auth/login',
@@ -66,16 +65,14 @@ export default function Login() {
       if(err.response.data === '계정이 존재하지 않습니다.') notify('계정이 존재하지 않습니다', 'error')
       else alert('Error')
     })
-
   }
+
 
   const onKeyPress = (e) => {
     if(e.key === 'Enter'){
       onSubmitHandler();
     }
   }
-
-
 
   return (
     <div className='login'>

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend": "nodemon index.js",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix front-end\" "
+    "dev": "concurrently \"cd ./OLOG_SERVER && npm run backend\" \"cd ./front-end && npm run client\" "
   },
   "repository": {
     "type": "git",

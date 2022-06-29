@@ -12,6 +12,7 @@ module.exports = {
     */
   register: async (req, res) => {
     const { username, password } = req.body;
+
     try {
       const exists = await User.findByUsername(username);
       if (exists) {
