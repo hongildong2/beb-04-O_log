@@ -59,12 +59,11 @@ module.exports = {
           (prv, cur) => prv + cur,
           0
         );
-        finalReward = sumOfRewardFactor * 5;
+        finalReward = sumOfRewardFactor * 10;
       } else {
-        finalReward = 10;
+        finalReward = 5;
       }
       const rewardedToken = expectedToken + finalReward;
-      console.log(rewardedToken);
 
       const filter = { username: res.locals.user.username };
       const update = { expectedToken: rewardedToken };
