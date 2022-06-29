@@ -15,7 +15,7 @@
 }
 .modal > section {
   width: 90%;
-  max-width: 450px;
+  max-width: 500px;
   margin: 0 auto;
   border-radius: 0.3rem;
   background-color: #fff;
@@ -62,6 +62,43 @@
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
+
+.modal_grid {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.g1{
+  background-color: #55efc4;
+}
+
+.g2{
+  background-color: #00b894;
+}
+
+.g3{
+  background-color: #a29bfe;
+}
+
+.g4{
+  background-color: #6c5ce7;
+}
+
+.g5{
+  background-color: #fab1a0;
+}
+
+.g6{
+  background-color: #d63031;
+}
+
+.g2.text1{
+  text-align: left;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
 @keyframes modal-show {
   from {
     opacity: 0;

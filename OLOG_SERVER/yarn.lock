@@ -209,6 +209,11 @@
     "semver" "^7.3.5"
     "tar" "^6.1.11"
 
+"@openzeppelin/contracts@^4.6.0":
+  "integrity" "sha512-8vi4d50NNya/bQqCmaVzvHNmwHvS0OBKb7HNtuNwEE3scXWrP31fKQoGxNMT+KbzmrNZzatE3QK5p2gFONI/hg=="
+  "resolved" "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-4.6.0.tgz"
+  "version" "4.6.0"
+
 "@sindresorhus/is@^0.14.0":
   "integrity" "sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ=="
   "resolved" "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz"
@@ -3084,11 +3089,7 @@
     "iconv-lite" "^0.6.3"
     "validator" "^13.7.0"
 
-<<<<<<< HEAD
-"openzeppelin-solidity@4.6.0":
-=======
 "openzeppelin-solidity@^4.6.0":
->>>>>>> d4070e2c830b80afb2aa9ea108a381935f1603e1
   "integrity" "sha512-Os4FUzc5V+4U2lpFyJA0kWh5fy3AZhYgS8CmB3Db4c4NGd3SsjFzuvWjBybn7NA4KZG7Gf6Lb7BdS8Cxb8Adtw=="
   "resolved" "https://registry.npmjs.org/openzeppelin-solidity/-/openzeppelin-solidity-4.6.0.tgz"
   "version" "4.6.0"

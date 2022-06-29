@@ -13,9 +13,6 @@ export default function Nftcard(props) {
     setModalOpen(false);
   };
 
-  //console.log(window.location.href);
-  //console.log(window.location.pathname);
-
   return (
     <div>
         <button style= {{border: "none"}} onClick={openModal} >
@@ -34,3 +31,4 @@ export default function Nftcard(props) {
 
   )
 }
+
