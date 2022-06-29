@@ -3,29 +3,32 @@ import { useNavigate } from 'react-router-dom'
 import './Card.css'
 
 export default function Card(props) {
-  const tempUrl='https://github.com/codestates/beb-04-O_log'
   const navigate = useNavigate()
 
   const handleClick = () => {
     navigate(`/mypage/${props.username}`)
   }
+
+  const handleLength = (title) => {
+    if(title.length > 48) return title.slice(0,48)+'...'
+    else return title;
+  }
   return (
     <div className='card'>
-      <div className='card_reward'>Reward</div>
-      <a href={tempUrl} target="_blank">
+      <a href={props.blogLink} target="_blank">
         <img className='card_image' src={props.postImageUrl} />
       </a>
       <div className='card_content'>
         <div className='card_content_main'>
-          <span className='title'>{props.title}</span>
+          <span className='title'>{handleLength(props.title)}</span>
           <div className='created_at'>
             <span className='created_at_element'>{props.created_at.slice(0,10)}</span>
           </div>
         </div>
         <div className='divider'></div>
         <div className='user' onClick={handleClick}>
-          <img className='image' src='logo192.png' />
           <span className='username'>{props.username}</span>
+          <img className='image' src={props.faviconUrl} />
         </div>
       </div>
     </div>

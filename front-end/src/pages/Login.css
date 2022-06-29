@@ -13,22 +13,23 @@
   border-radius: 8px;
 }
 
-.form_container .title {
+.login .title {
   font-weight: bold;
   font-size: 18px;
   margin: 5px 0 8px 0;
   color: var(--white-text-color)
 }
 
-.form_container .input_section {
+.login .input_section {
   display: flex;
   width: 600px;
 }
 
-.form_container .inputs {
+.login .inputs {
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .inputs input{
@@ -39,14 +40,13 @@
   border-radius: 5px;
 }
 
-.submit {
+.login .submit {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
+  justify-content: end;
+  width: 100%;
 }
 
-.form_container .submit button{
+.login .submit button{
   width: 80px;
   height: 30px;
   border: none;
