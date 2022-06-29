@@ -14,7 +14,8 @@ import './Mypage.css'
 export default function Mypage() {
   const [myOLG, setMyOLG] = useState(0)
   const [received, setReceived] = useState(0);
-  const [myPosts, setMyPosts] = useState([])
+  const [myPosts, setMyPosts] = useState([]);
+  const [myNfts, setMyNfts] = useState([]);
   const { authstate } = useContext(AuthContext);
   const { notify } = useContext(MessageContext);
   const location = useLocation();
@@ -31,10 +32,28 @@ export default function Mypage() {
     // }
     getMyPosts();
     getMyOLG();
+    getMyNfts();
     
   },[location.pathname])
 
-  //location.pathname의 포스트 호출(인증 상관없이)
+  //location.pathname의 nft 요청(인증 상관없이)
+  const getMyNfts = () => {
+    if(!authstate.auth) return;
+    axios.request({
+      method: 'GET',
+      url: `http://localhost:3030/offchain/nftmarket/myNFT`,
+      withCredentials: true
+    })
+    .then((res)=> {
+      console.log(res.data)
+      setMyNfts(res.data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  //location.pathname의 포스트 요청(인증 상관없이)
   const getMyPosts = () => {
     axios.request({
       method:'GET',
@@ -46,7 +65,7 @@ export default function Mypage() {
       setMyPosts(res.data)
     })
     .catch((err) => {
-      //console.log(err)
+      console.log(err)
     })
   }
 
@@ -76,11 +95,8 @@ export default function Mypage() {
       return;
     }
     axios.request({
-      method: 'POST',
+      method: 'GET',
       url:'http://localhost:3030/onchain/walletSync',
-      data:{
-        username: authstate.username
-      },
       withCredentials: true
     })
     .then((res) => {
@@ -119,7 +135,7 @@ export default function Mypage() {
             <span>올린 포스트 </span>
             <span>{myPosts.length} 개</span>
           </div>
-          <Mynft/>
+          {location.pathname.slice(8) === authstate.username ? <Mynft/> : ''}
         </div>
         <MyPosts myPosts={myPosts}/>
         <div className='mypage_comment'>

@@ -26,7 +26,7 @@ export default function MyComments() {
     })
     .then((res) => {
       //console.log(res.data);
-      setComments(res.data)
+      setComments(res.data.reverse())
     })
     .catch((err) => {
       console.log(err)

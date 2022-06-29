@@ -5,9 +5,22 @@ import { AuthContext, MessageContext } from '../context/store';
 
 export default function Uploadpost(props) {
   const [link, setlink] = useState('')
+  const [confirm, setComfirm] = useState(false);
   const {authstate} = useContext(AuthContext);
   const {notify} = useContext(MessageContext);
 
+  const handleConfirm = () => {
+    if(confirm){
+      setComfirm(false);
+      return;
+    }
+    if(!link) return;
+    if(!authstate.auth) {
+      notify('로그인 후 시도해 주세요', 'error')
+      return;
+    }
+    setComfirm(true);
+  }
 
   const handlelink = (e) => {
     setlink(e.target.value)
@@ -15,11 +28,7 @@ export default function Uploadpost(props) {
 
   //post 업로드 요청
   const handleSubmit = () => {
-    if(!link) return;
-    if(!authstate.auth) {
-      notify('로그인 후 시도해 주세요', 'error')
-      return;
-    }
+
     axios.request({
       method: 'POST',
       url:'http://localhost:3030/offchain/posts',
@@ -27,10 +36,11 @@ export default function Uploadpost(props) {
       withCredentials: true
     })
     .then((res) => {
-      alert('업로드 완료!')
+      setlink('')
+      setComfirm(false);
+      notify('업로드 완료!','success')
       if(props.getMyPosts) props.getMyPosts();
       if(props.getMyOLG) props.getMyOLG();
-      setlink('')
     })
     .catch((err) => console.log(err))
   }
@@ -43,9 +53,22 @@ export default function Uploadpost(props) {
           <input placeholder='링크' id='link' value={link} onChange={handlelink} />
         </div>
         <div className='submit'>
-          <button onClick={handleSubmit}>upload</button>
+          <button onClick={handleConfirm}>upload</button>
         </div>
       </div>
+    {confirm?       
+      <div className='small_modal'>
+        <div className='message_area'>
+          <span>포스트 업로드 후에 삭제하실 수 없습니다.</span>
+          <span>업로드 하시겠습니까?</span>
+        </div>
+        <div className='button_area'>
+          <button className='yes_button' onClick={handleSubmit}>yes</button>
+          <button className='no_button' onClick={handleConfirm}>no</button>
+        </div>
+      </div>
+    :''}
+
     </div>
   )
 }

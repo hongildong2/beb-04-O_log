@@ -76,7 +76,11 @@ export default function Signup() {
     })
   }
 
-
+  const onKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      onSubmitHandler();
+    }
+  }
 
 
 
@@ -85,9 +89,9 @@ export default function Signup() {
     <div className='form_container'>
       <div className='title'>Signup</div>
       <div className='inputs'>
-        <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" />
-        <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" />
-        <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler} placeholder="Confirm Password"/>
+        <input type="username" value={Username} onChange={onUsernameHandler} placeholder="Username" onKeyPress={onKeyPress}/>
+        <input type="password" value={Password} onChange={onPasswordHandler}  placeholder="Password" onKeyPress={onKeyPress}/>
+        <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler} placeholder="Confirm Password" onKeyPress={onKeyPress}/>
       </div>
       <div className='submit'>
         <button type="submit" onClick={onSubmitHandler}>
