@@ -3,13 +3,15 @@ import Nftcard from './Nftcard'
 import './Mynft.css'
 
 
-export default function Mynft() {
-  const data = [1,2,3,4] //내 nft 요청
+export default function Mynft(props) {
+
+  console.log(props.nfts)
+  const nfts = props.nfts //내 nft 요청
   return (
     <div className='mynfts'>
       <div className='mynfts_container'>
-        {data.map((el, idx) => {
-          return <Nftcard key={idx}/>
+        {nfts.map((el, idx) => {
+          return <Nftcard key={idx} name={el.name} description={el.description} image={el.image} NFTrewardFactor={el.NFTrewardFactor} tokenId={el.tokenId} tokenURI={el.tokenURI} attributes={el.attributes}/>
         })}
       </div>
     </div>

@@ -1,31 +1,36 @@
 import React, {useContext} from 'react';
 import './Modal.css';
 import axios from 'axios'
-import { AuthContext } from '../context/store'
+import { AuthContext, MessageContext } from '../context/store'
+import { useLocation } from 'react-router-dom';
 
 export default function(props){
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const { open, close, header } = props;
+  // 모달 정보들 모두 부모로부터 받아옴
+  const { open, close, header, name, description, image, price, NFTrewardFactor, tokenURI, tokenId, attributes} = props;
   const {authstate} = useContext(AuthContext);
+  const {notify} = useContext(MessageContext);
+  const location = useLocation();
 
   var btn_nftcart = '강화하기';
-  const path = (window.location.pathname).split('/')
+  //
+  const path = (location.pathname).split('/')
   //uri를 가지고 버튼 변경. 구매하기, 강화하기 
   if(path[1] == 'marketplace'){
     btn_nftcart = '구매하기';
   }else if(path[1] == 'mypage'){
     btn_nftcart = '강화하기';
   }
-  /*
-  axios.request({
-    method: 'GET',
-    url:'http://localhost:3030/offchain/nftmarket/myNFT',
-  })
-  .then((res) => {
-    console.log('myNFT 응답입니다.',res.data.tokenURI)
-  })
-  .catch((err) => console.log(err))
-  */
+  
+  // axios.request({
+  //   method: 'GET',
+  //   url:'http://localhost:3030/offchain/nftmarket/myNFT',
+  // })
+  // .then((res) => {
+  //   console.log('myNFT 응답입니다.',res.data.tokenURI)
+  // })
+  // .catch((err) => console.log(err))
+  
 
   const handleSubmit = () => {
      //인증 여부 확인 후 post 요청
@@ -51,18 +56,36 @@ export default function(props){
     }
 
   //mypage에서는 강화하기 진행
+  //test 필요!
     if(path[1] == 'mypage'){
       axios.request({
         method: 'POST',
         url:'http://localhost:3030/onchain/upgradeNFT',
-        data: { username: authstate.username, tokenId : "1"}, //tokenId 추가해야함
+        data: { username: authstate.username, tokenId : tokenId},
         withCredentials: true
       })
       .then((res) => {
+        if(res.data === '0'){
+          //모달 닫기
+          notify('강화에 실패했습니다! 다시 시도해 주세요', 'error')
+        }
+        else if(res.data === '1'){
+          //모달 닫기
+          notify('레벨 1 -> 레벨 2 로 강화되었습니다!')
+          //getmyNft 다시 호출
+        }
+        else if(res.data === '2'){
+          //모달 닫기
+          notify('레벨 2 -> 레벨 3 으로 강화되었습니다!')
+          //getmyNft 다시 호출
+        }
+        else console.log(res.data)
         console.log('강화하기 응답입니다.',res)
         //alret울림...?
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+      })
     }
 
   }
@@ -87,13 +110,31 @@ export default function(props){
             <div>
               <div class = 'modal_grid'>
                 <div class = 'g1'>
-                 <img className='nftcard_image' src='nft_img.png' />
+                  <img className='nftcard_image' src={image} />
                 </div>
                 <div class = 'g2'>
-                <div className='text1'><span >NFT 이름</span></div>
-                <div><span className='text1'>NFT 설명</span></div>
-                <div><span className='text1'>리워드 레벨</span></div>
-                <div><span className='text1'>구매 필요한 토큰</span></div>
+                  <ul>
+                    <li>
+                      <div className='key'>name</div>
+                      <div className='value'>{name}</div>
+                    </li>
+                    <li>
+                      <div className='key'>description</div>
+                      <div className='value'>{description}</div>
+                    </li>
+                    <li>
+                      <div className='key'>reward</div>
+                      <div className='value'>{NFTrewardFactor}</div>
+                    </li>
+                    <li>
+                      <div className='key'>price</div>
+                      <div className='value'>{price}</div>
+                    </li>
+                    <li>
+                      <div className='key'>attributes</div>
+                      <div className='value'>{attributes[0].trait_type}: {attributes[0].value}</div>
+                    </li>
+                  </ul>
                 </div>
                 
               </div>
