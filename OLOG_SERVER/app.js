@@ -9,7 +9,8 @@ const verifyToken = require("./verifyToken");
 
 const app = express();
 
-const { PORT, MONGO_URI } = process.env;
+const { MONGO_URI } = process.env;
+const port = process.env.PORT || 8080;
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -31,6 +32,6 @@ app.get("/", (req, res) => {
   res.send("HI");
 });
 //온체인 오프체인 포트 분리시키기
-app.listen(PORT, () => {
+app.listen(port, () => {
   console.log("Running");
 });
