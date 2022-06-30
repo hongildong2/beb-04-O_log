@@ -19,12 +19,13 @@ module.exports = {
     //토큰 아이디는 살때 정해짐
     const username = res.locals.user.username;
     if (!username) return res.send("Not logged in");
+    console.log("current ueer", username);
 
     const result = await User.findByUsername(username);
     const { address, receivedToken, expectedToken } = result;
-    if (price > receivedToken + expectedToken)
+    if (receivedToken + expectedToken < 100)
       return res.send("You don't have enough balance");
-    if (price > receivedToken)
+    if (receivedToken < 100)
       return res.send("Please proceed wallet synchronization");
 
     console.log("NFT Buy in progress");
@@ -55,7 +56,7 @@ module.exports = {
           const NFTAdd = await User.findOneAndUpdate(
             { username: username },
             {
-              receivedToken: receivedToken - price,
+              receivedToken: receivedToken - 100,
               $push: { NFTPossessed: tokenId },
             },
             { new: true }
@@ -79,7 +80,7 @@ module.exports = {
           res.send(updatedResult);
         } else {
           console.log("mintNFT Fail");
-          res.send("Minting Failed");
+          return res.send("Minting Failed");
         }
       }
     );
@@ -98,11 +99,13 @@ module.exports = {
 
   UpgradeNFT: async (req, res) => {
     //Upgrade메서드 실행
-    const { username, tokenId } = req.body;
+    const { tokenId } = req.body;
+    const username = res.locals.user.username;
     const { address, NFTPossessed, receivedToken } = await User.findByUsername(
       username
     );
-    if (!NFTPossessed.includes(tokenId)) res.send("You don't have this NFT");
+    if (!NFTPossessed.includes(tokenId))
+      return res.send("You don't have this NFT");
     //거지인지 아닌지 확인하기
     const { NFTrewardFactor } = await NFT.findBytokenId(tokenId);
     console.log("DB NFTrewardFactor : ", NFTrewardFactor);
@@ -110,9 +113,9 @@ module.exports = {
     let price = NFTrewardFactor === 1 ? 100 : 1000; // 1이면 백원 2면 천원;
 
     if (receivedToken < 100 && NFTrewardFactor === 1)
-      res.send("Not enough balance");
+      return res.send("Not enough balance");
     else if (receivedToken < 1000 && NFTrewardFactor === 3)
-      res.send("Not enough balance");
+      return res.send("Not enough balance");
     //확인
 
     const ERC721_UpgradeNFTData = await ERC721Contract.methods
@@ -134,7 +137,7 @@ module.exports = {
       signedERC721UpgradeNFTtx.rawTransaction,
       async (err, hash) => {
         if (!err) console.log("Upgrade Transaction success");
-        else console.log(err);
+        else return res.send("Transaction Failed");
       }
     );
     //////////////// 이부분 나중에 함수화로 리팩터링
