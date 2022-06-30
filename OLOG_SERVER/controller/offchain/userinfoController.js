@@ -9,7 +9,7 @@ module.exports = {
     const username = res.locals.user.username;
 
     try {
-      user = await User.findByUsername(username);
+      const user = await User.findByUsername(username);
 
       res.status(200).send(user.hidePw());
     } catch (e) {
