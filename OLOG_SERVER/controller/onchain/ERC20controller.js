@@ -52,7 +52,7 @@ module.exports = {
           console.log(receivedToken, hash);
         } else {
           console.log(err);
-          res.send("Transaction Failed");
+          return res.send("Transaction Failed");
         }
       });
       const updatedToken = receivedToken + expectedToken;
@@ -71,7 +71,9 @@ module.exports = {
       };
       res.send(result);
     } else {
-      res.send("Failed!");
+      return res.send(
+        "Your contract balance is different with Database, contact to admin"
+      );
     }
   },
   //특정 주소로 get 요청 받음, get 요청이면 userid는 어떻게 받지?
