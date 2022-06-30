@@ -31,10 +31,11 @@ export default function Uploadpost(props) {
 
   //post 업로드 요청
   const handleSubmit = () => {
+    console.log(authstate)
     setIsLoading(true);
     axios.request({
       method: 'POST',
-      url:'http://localhost:3030/offchain/posts',
+      url:'https://olog445.herokuapp.com/offchain/posts',
       data: {blogLink: link},
       withCredentials: true
     })

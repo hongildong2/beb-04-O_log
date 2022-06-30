@@ -18,7 +18,7 @@ export default function Marketplace() {
     setIsLoading(true);
     axios.request({
       method: 'get',
-      url: 'http://localhost:3030/offchain/nftmarket/allNFT',
+      url: 'https://olog445.herokuapp.com/offchain/nftmarket/allNFT',
       withCredentials: true
     })
     .then((res)=>{

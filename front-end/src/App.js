@@ -23,9 +23,10 @@ function App() {
     try{
     let res = await axios.request({
       method: 'GET',
-      url: 'http://localhost:3030/offchain/auth/check',
+      url: 'https://olog445.herokuapp.com/offchain/auth/check',
       withCredentials: true
     })
+    console.log(res.data)
     login(res.data)
   }
   catch(err){
@@ -42,7 +43,7 @@ function App() {
 
   return (
     <MessageProvider>
-      <AuthContext.Provider value={{authstate, check, login, logout}}>
+      <AuthContext.Provider value={{authstate, login, logout}}>
         <BrowserRouter>
           <div className="App">
             <Navbar />

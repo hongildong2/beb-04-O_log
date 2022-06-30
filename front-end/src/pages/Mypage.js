@@ -15,7 +15,7 @@ export default function Mypage() {
   const [received, setReceived] = useState(0);
   const [myPosts, setMyPosts] = useState([]);
   const [myNfts, setMyNfts] = useState([]);
-  const { authstate, check } = useContext(AuthContext);
+  const { authstate } = useContext(AuthContext);
   const { notify } = useContext(MessageContext);
   const location = useLocation();
 
@@ -43,7 +43,7 @@ export default function Mypage() {
     };
     axios.request({
       method: 'GET',
-      url: `http://localhost:3030/offchain/nftmarket/myNFT`,
+      url: `https://olog445.herokuapp.com/offchain/nftmarket/myNFT`,
       withCredentials: true
     })
     .then((res)=> {
@@ -59,7 +59,7 @@ export default function Mypage() {
   const getMyPosts = () => {
     axios.request({
       method:'GET',
-      url: `http://localhost:3030/offchain/posts/mypage/${location.pathname.slice(8,)}`,
+      url: `https://olog445.herokuapp.com/offchain/posts/mypage/${location.pathname.slice(8,)}`,
       withCredentials: true
     })
     .then((res) => {
@@ -78,7 +78,7 @@ export default function Mypage() {
 
     axios.request({
       method: 'GET',
-      url: 'http://localhost:3030/offchain/userinfo/status',
+      url: 'https://olog445.herokuapp.com/offchain/userinfo/status',
       withCredentials: true
     })
     .then((res) => {
@@ -100,7 +100,7 @@ export default function Mypage() {
     }
     axios.request({
       method: 'GET',
-      url:'http://localhost:3030/onchain/walletSync',
+      url:'https://olog445.herokuapp.com/onchain/walletSync',
       withCredentials: true
     })
     .then((res) => {
