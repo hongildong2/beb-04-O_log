@@ -22,14 +22,11 @@ module.exports = {
     */
   read: async (req, res) => {
     const username = req.params.username;
-    console.log(username);
     const query = {
       ...(username ? { ownerName: username } : {}),
     };
-    console.log(query);
     try {
       const comments = await Comment.find(query).exec();
-      console.log(comments);
       res.status(200).send(comments);
     } catch (e) {
       res.status(404).send(e);
