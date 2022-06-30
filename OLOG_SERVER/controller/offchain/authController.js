@@ -20,7 +20,7 @@ module.exports = {
         return;
       }
 
-      const web3 = new Web3(process.env.LOCAL_GANACHE);
+      const web3 = new Web3(process.env.PROVIDER);
       const Account = await web3.eth.accounts.create();
 
       const newUser = new User({
