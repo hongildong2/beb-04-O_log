@@ -23,7 +23,7 @@ function App() {
     try{
     let res = await axios.request({
       method: 'GET',
-      url: 'https://olog445.herokuapp.com/offchain/auth/check',
+      url: '/offchain/auth/check',
       withCredentials: true
     })
     console.log(res.data)

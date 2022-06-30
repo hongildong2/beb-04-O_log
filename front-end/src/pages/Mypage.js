@@ -43,7 +43,7 @@ export default function Mypage() {
     };
     axios.request({
       method: 'GET',
-      url: `https://olog445.herokuapp.com/offchain/nftmarket/myNFT`,
+      url: `/offchain/nftmarket/myNFT`,
       withCredentials: true
     })
     .then((res)=> {
@@ -59,7 +59,7 @@ export default function Mypage() {
   const getMyPosts = () => {
     axios.request({
       method:'GET',
-      url: `https://olog445.herokuapp.com/offchain/posts/mypage/${location.pathname.slice(8,)}`,
+      url: `/offchain/posts/mypage/${location.pathname.slice(8,)}`,
       withCredentials: true
     })
     .then((res) => {
@@ -78,7 +78,7 @@ export default function Mypage() {
 
     axios.request({
       method: 'GET',
-      url: 'https://olog445.herokuapp.com/offchain/userinfo/status',
+      url: '/offchain/userinfo/status',
       withCredentials: true
     })
     .then((res) => {
@@ -100,7 +100,7 @@ export default function Mypage() {
     }
     axios.request({
       method: 'GET',
-      url:'https://olog445.herokuapp.com/onchain/walletSync',
+      url:'/onchain/walletSync',
       withCredentials: true
     })
     .then((res) => {

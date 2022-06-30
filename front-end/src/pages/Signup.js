@@ -63,7 +63,7 @@ export default function Signup() {
 
     axios.request({
       method:'POST',
-      url:'https://olog445.herokuapp.com/offchain/auth/register',
+      url:'/offchain/auth/register',
       data: body
     })
     .then((res) => {

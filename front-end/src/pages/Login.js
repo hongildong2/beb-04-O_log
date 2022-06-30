@@ -49,7 +49,7 @@ export default function Login() {
 
     axios.request({
       method:'POST',
-      url:'https://olog445.herokuapp.com/offchain/auth/login',
+      url:'offchain/auth/login',
       data: body,
       withCredentials: true
     })

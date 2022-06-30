@@ -44,7 +44,7 @@ export default function(props){
       console.log("구매하기 axios");
       axios.request({
         method: 'POST',
-        url:'https://olog445.herokuapp.com/onchain/serverNFYBuy',
+        url:'/onchain/serverNFYBuy',
         data: { tokenURI: "kkk_tokenuri"},
         withCredentials: true
       })
@@ -61,7 +61,7 @@ export default function(props){
     if(path[1] == 'mypage'){
       axios.request({
         method: 'POST',
-        url:'https://olog445.herokuapp.com/onchain/upgradeNFT',
+        url:'/onchain/upgradeNFT',
         data: {tokenId : tokenId},
         withCredentials: true
       })

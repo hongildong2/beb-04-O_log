@@ -18,7 +18,7 @@ export default function Explore() {
     setIsLoading(true);
     axios.request({
       method:'GET',
-      url:'https://olog445.herokuapp.com/offchain/posts'
+      url:'/offchain/posts'
     })
     .then((res) => {
       //console.log(res.data)

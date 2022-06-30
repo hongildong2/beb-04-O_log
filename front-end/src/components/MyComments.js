@@ -21,7 +21,7 @@ export default function MyComments() {
   const getComments = () => {
     axios.request({
       method: 'GET',
-      url: `https://olog445.herokuapp.com/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
+      url: `/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
       withCredentials: true
     })
     .then((res) => {
@@ -49,7 +49,7 @@ export default function MyComments() {
 
     axios.request({
       method: 'POST',
-      url:`https://olog445.herokuapp.com/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
+      url:`/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
       data:{
         contents: input
       },

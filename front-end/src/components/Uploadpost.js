@@ -35,7 +35,7 @@ export default function Uploadpost(props) {
     setIsLoading(true);
     axios.request({
       method: 'POST',
-      url:'https://olog445.herokuapp.com/offchain/posts',
+      url:'/offchain/posts',
       data: {blogLink: link},
       withCredentials: true
     })

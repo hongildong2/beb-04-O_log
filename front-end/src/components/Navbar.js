@@ -16,7 +16,7 @@ export default function Navbar() {
   const handleLogout = () => {
     axios.request({
       method: 'POST',
-      url:'https://olog445.herokuapp.com/offchain/auth/logout',
+      url:'/offchain/auth/logout',
       withCredentials:true
     })
     .then((res) => {
