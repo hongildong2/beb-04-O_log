@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.10;
 
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin-solidity/contracts/utils/Counters.sol";
@@ -26,7 +26,7 @@ contract OLOG_ERC721 is ERC721URIStorage, Ownable {
 
     function mintNFT(address recipient, string memory tokenURI) public onlyOwner returns (uint256) {
         require(token.balanceOf(recipient) >= 0, "Check that you set the ERC20 address" );
-        require(token.balanceOf(recipient) > nftPrice,"Not enough balance");
+        require(token.balanceOf(recipient) >= nftPrice,"Not enough balance");
 
         token.transferFrom(recipient, msg.sender, nftPrice); //msg.sender is server address
         //If we use transferFrom like this, caller becomes NFT's contract address, not msg.sender which is the server
