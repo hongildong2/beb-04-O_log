@@ -15,7 +15,7 @@ export default function Mypage() {
   const [received, setReceived] = useState(0);
   const [myPosts, setMyPosts] = useState([]);
   const [myNfts, setMyNfts] = useState([]);
-  const { authstate } = useContext(AuthContext);
+  const { authstate, check } = useContext(AuthContext);
   const { notify } = useContext(MessageContext);
   const location = useLocation();
 
@@ -29,15 +29,18 @@ export default function Mypage() {
     //   console.log("login true");
     //   getMyPosts();
     // }
+
     getMyPosts();
     getMyOLG();
     getMyNfts();
-    
+
   },[location.pathname])
 
   //location.pathname의 nft 요청(인증 상관없이)
   const getMyNfts = () => {
-    if(!authstate.auth) return;
+    if(!authstate.auth) {
+      return
+    };
     axios.request({
       method: 'GET',
       url: `http://localhost:3030/offchain/nftmarket/myNFT`,
@@ -61,6 +64,7 @@ export default function Mypage() {
     })
     .then((res) => {
       //console.log(res.data)
+
       setMyPosts(res.data)
     })
     .catch((err) => {
@@ -71,6 +75,7 @@ export default function Mypage() {
   //내 OLG 요청(status)
   const getMyOLG = () => {
     if(!(authstate.username === location.pathname.slice(8,))) return;
+
     axios.request({
       method: 'GET',
       url: 'http://localhost:3030/offchain/userinfo/status',
@@ -100,8 +105,9 @@ export default function Mypage() {
     })
     .then((res) => {
       console.log(res)
-      if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요')
-      else if(res.data === "Don't need to sync") notify('sync할 OLG가 없습니다')
+      if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요', 'error')
+      else if(res.data === "Don't need to sync") notify('sync할 OLG가 없습니다', 'error')
+      else if(res.data === "Transaction Failed") notify('sync에 실패했습니다. 다시 시도해주세요','error')
       else{
         getMyOLG();
         notify('sync가 성공적으로 이루어졌습니다!', 'success')

@@ -1,8 +1,24 @@
+import axios from 'axios';
+
+const check = async () => {
+  try{
+  let res =await axios.request({
+    method: 'GET',
+    url: 'http://localhost:3030/offchain/auth/check',
+    withCredentials: true
+  })
+  let data = res.data;
+  console.log(data)
+  return data
+}catch(e){
+  console.log(e)
+}
+}
 
 
 export const initialState = {
-  auth: false,
-  username: undefined
+  auth: check()? true : false,
+  username: check().username 
 }
 
 export const authReducer = (state, action) => {
@@ -26,7 +42,7 @@ export const authReducer = (state, action) => {
 }
 
 export const initialState_m = {
-  messages: []
+  messages: [],
 }
 
 export const messageReducer = (state, action) => {

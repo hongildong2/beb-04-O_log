@@ -42,7 +42,7 @@ function App() {
 
   return (
     <MessageProvider>
-      <AuthContext.Provider value={{authstate, login, logout}}>
+      <AuthContext.Provider value={{authstate, check, login, logout}}>
         <BrowserRouter>
           <div className="App">
             <Navbar />
