@@ -44,7 +44,7 @@ export default function(props){
       console.log("구매하기 axios");
       axios.request({
         method: 'POST',
-        url:'http://localhost:3030/onchain/serverNFYBuy',
+        url:'/onchain/serverNFYBuy',
         data: { tokenURI: "kkk_tokenuri"},
         withCredentials: true
       })
@@ -57,11 +57,12 @@ export default function(props){
 
   //mypage에서는 강화하기 진행
   //test 필요!
+  //username 안보내도 됨!
     if(path[1] == 'mypage'){
       axios.request({
         method: 'POST',
-        url:'http://localhost:3030/onchain/upgradeNFT',
-        data: { username: authstate.username, tokenId : tokenId},
+        url:'/onchain/upgradeNFT',
+        data: {tokenId : tokenId},
         withCredentials: true
       })
       .then((res) => {

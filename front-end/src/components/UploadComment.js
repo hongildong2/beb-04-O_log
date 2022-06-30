@@ -26,7 +26,7 @@ export default function UploadComment() {
     //요청
     axios.request({
       method: 'POST',
-      url:`http://localhost:3030/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
+      url:`https://olog445.herokuapp.com/offchain/userinfo/comment/${location.pathname.slice(8,)}`,
       data:{
         contents: input
       },

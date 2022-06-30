@@ -23,9 +23,10 @@ function App() {
     try{
     let res = await axios.request({
       method: 'GET',
-      url: 'http://localhost:3030/offchain/auth/check',
+      url: '/offchain/auth/check',
       withCredentials: true
     })
+    console.log(res.data)
     login(res.data)
   }
   catch(err){

@@ -2,12 +2,15 @@ import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import './Uploadpost.css'
 import { AuthContext, MessageContext } from '../context/store';
+import Loading from './Loading';
 
 export default function Uploadpost(props) {
   const [link, setlink] = useState('')
   const [confirm, setComfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const {authstate} = useContext(AuthContext);
   const {notify} = useContext(MessageContext);
+
 
   const handleConfirm = () => {
     if(confirm){
@@ -28,21 +31,27 @@ export default function Uploadpost(props) {
 
   //post 업로드 요청
   const handleSubmit = () => {
-
+    console.log(authstate)
+    setIsLoading(true);
     axios.request({
       method: 'POST',
-      url:'http://localhost:3030/offchain/posts',
+      url:'/offchain/posts',
       data: {blogLink: link},
       withCredentials: true
     })
     .then((res) => {
-      setlink('')
       setComfirm(false);
+      setIsLoading(false);
+      setlink('')
       notify('업로드 완료!','success')
       if(props.getMyPosts) props.getMyPosts();
       if(props.getMyOLG) props.getMyOLG();
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setIsLoading(false);
+      notify('업로드에 실패했습니다', 'error')
+      console.log(err)
+    })
   }
 
   return (
@@ -66,6 +75,7 @@ export default function Uploadpost(props) {
           <button className='yes_button' onClick={handleSubmit}>yes</button>
           <button className='no_button' onClick={handleConfirm}>no</button>
         </div>
+        {isLoading ? <Loading /> : ''}
       </div>
     :''}
 

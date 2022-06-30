@@ -26,7 +26,7 @@ export const authReducer = (state, action) => {
 }
 
 export const initialState_m = {
-  messages: []
+  messages: [],
 }
 
 export const messageReducer = (state, action) => {

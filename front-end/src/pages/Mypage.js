@@ -29,18 +29,21 @@ export default function Mypage() {
     //   console.log("login true");
     //   getMyPosts();
     // }
+
     getMyPosts();
     getMyOLG();
     getMyNfts();
-    
+
   },[location.pathname])
 
   //location.pathname의 nft 요청(인증 상관없이)
   const getMyNfts = () => {
-    if(!authstate.auth) return;
+    if(!authstate.auth) {
+      return
+    };
     axios.request({
       method: 'GET',
-      url: `http://localhost:3030/offchain/nftmarket/myNFT`,
+      url: `/offchain/nftmarket/myNFT`,
       withCredentials: true
     })
     .then((res)=> {
@@ -56,11 +59,12 @@ export default function Mypage() {
   const getMyPosts = () => {
     axios.request({
       method:'GET',
-      url: `http://localhost:3030/offchain/posts/mypage/${location.pathname.slice(8,)}`,
+      url: `/offchain/posts/mypage/${location.pathname.slice(8,)}`,
       withCredentials: true
     })
     .then((res) => {
       //console.log(res.data)
+
       setMyPosts(res.data)
     })
     .catch((err) => {
@@ -71,9 +75,10 @@ export default function Mypage() {
   //내 OLG 요청(status)
   const getMyOLG = () => {
     if(!(authstate.username === location.pathname.slice(8,))) return;
+
     axios.request({
       method: 'GET',
-      url: 'http://localhost:3030/offchain/userinfo/status',
+      url: '/offchain/userinfo/status',
       withCredentials: true
     })
     .then((res) => {
@@ -95,13 +100,14 @@ export default function Mypage() {
     }
     axios.request({
       method: 'GET',
-      url:'http://localhost:3030/onchain/walletSync',
+      url:'/onchain/walletSync',
       withCredentials: true
     })
     .then((res) => {
       console.log(res)
-      if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요')
-      else if(res.data === "Don't need to sync") notify('sync할 OLG가 없습니다')
+      if(res.data === 'Failed!') notify('sync에 실패했습니다. 다시 시도해주세요', 'error')
+      else if(res.data === "Don't need to sync") notify('sync할 OLG가 없습니다', 'error')
+      else if(res.data === "Transaction Failed") notify('sync에 실패했습니다. 다시 시도해주세요','error')
       else{
         getMyOLG();
         notify('sync가 성공적으로 이루어졌습니다!', 'success')

@@ -49,7 +49,7 @@ export default function Login() {
 
     axios.request({
       method:'POST',
-      url:'http://localhost:3030/offchain/auth/login',
+      url:'offchain/auth/login',
       data: body,
       withCredentials: true
     })
@@ -63,7 +63,7 @@ export default function Login() {
       console.log(err)
       if(err.response.data === '잘못된 비밀번호 입니다.') notify('잘못된 비밀번호입니다', 'error')
       else if(err.response.data === '계정이 존재하지 않습니다.') notify('계정이 존재하지 않습니다', 'error')
-      else alert('Error')
+      else notify('로그인할 수 없습니다. 관리자에게 문의해주세요','error')
     })
   }
 
