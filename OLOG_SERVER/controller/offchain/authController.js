@@ -102,7 +102,11 @@ module.exports = {
 }
 */
   logout: (req, res) => {
-    res.cookie("JWT_token");
+    res.cookie("JWT_token", "", {
+      maxAge: 0,
+      sameSite: "none",
+      secure: true,
+    });
     res.status(200).send("로그아웃됨");
   },
 };
