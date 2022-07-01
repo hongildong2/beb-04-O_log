@@ -1,26 +1,35 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Nftcard from '../components/Nftcard'
+import { MessageContext } from '../context/store';
+import Loading from '../components/Loading';
 import './Marketplace.css'
 
 export default function Marketplace() {
   const [nfts, setNfts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { notify } = useContext(MessageContext)
 
   useEffect(()=> {
     getNfts()
   },[])
 
   const getNfts = () => {
+    setIsLoading(true);
     axios.request({
       method: 'get',
-      url: 'http://localhost:3030/offchain/nftmarket/allNFT',
+      url: '/offchain/nftmarket/allNFT',
       withCredentials: true
     })
     .then((res)=>{
       setNfts(res.data)
       console.log(res.data)
+      setIsLoading(false);
     })
-    .catch((err) => {console.log(err)})
+    .catch((err) => {
+      setIsLoading(false);
+      notify('마켓플레이스를 불러올 수 없습니다')
+      console.log(err)})
   }
   
   return (
@@ -41,6 +50,7 @@ export default function Marketplace() {
             />
         })}
       </div>
+      {isLoading ? <Loading /> : ''}
     </div>
   )
 }

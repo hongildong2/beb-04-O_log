@@ -6,7 +6,7 @@ import './NotificationCenter.css'
 export default function NotificationCenter() {
   const {state} = useContext(MessageContext);
   return (
-    <div className="notification-container top-right">
+    <div className="notification-container">
     {
       state.messages.map((n) =>
         <Toast key={n.uuid} text={n.message} option={n.option} dismissTime={n.dismissTime} />
