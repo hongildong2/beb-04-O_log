@@ -51,8 +51,9 @@ module.exports = {
         if (!err) {
           console.log("Success");
           //이벤트를 받아올수가 없어서 그냥 메소드 call해서 토큰아이디 받아옴
-          const tokenId = await ERC721Contract.methods.totalSupply().call();
-          //유저 정보도 DB에서 receivedToken 삭제시켜주기
+          let tokenId = (await NFT.find().sort({ tokenId: -1 }).limit(1))[0]
+            .tokenId;
+          tokenId++; //유저 정보도 DB에서 receivedToken 삭제시켜주기
           const NFTAdd = await User.findOneAndUpdate(
             { username: username },
             {

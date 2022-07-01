@@ -8,6 +8,7 @@ const offchainRouter = require("./router/offchain/index");
 const verifyToken = require("./verifyToken");
 
 const app = express();
+let reqStack = [];
 
 const { MONGO_URI } = process.env;
 const port = process.env.PORT || 8080;
@@ -28,6 +29,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(verifyToken);
+app.use("/onchain", (req, res, next) => {
+  reqStack.push(1);
+  console.log(reqStack);
+  if (reqStack.length === 1) {
+    next();
+  } else {
+    setTimeout(() => {
+      if (reqStack.length === 2) reqStack = [];
+      reqStack.shift();
+      next();
+    }, 1000 * reqStack.length);
+  }
+});
 
 //Onchain middlewares
 app.use("/onchain", onchainRouter);
